@@ -33,8 +33,9 @@ export default {
     getItemDetails(item) {
       console.log(item.id);
       this.$store.dispatch('getItemById', { id :item.id });
-      const itemId = this.items.find(x => x.name === 'Bambou').id;
-      this.$router.push({ path: `/details/${itemId}`, params: item})
+      this.$store.dispatch('setModal');
+      // const itemId = this.items.find(x => x.name === 'Bambou').id;
+      // this.$router.push({ path: `/details/${itemId}`, params: item})
     }
   },
   created() {

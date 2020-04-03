@@ -7,7 +7,8 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
     items: '',
-    currentItem: ''
+    currentItem: '',
+    showModal: false
   },
   mutations: {
     SAVE_ITEMS(state, payload) {
@@ -15,6 +16,9 @@ export default new Vuex.Store({
     },
     SAVE_CURRENT_ITEM(state, payload) {
       state.currentItem = payload;
+    },
+    SET_MODAL(state, payload) {
+      state.showModal = payload;
     }
   },
   actions: {
@@ -33,6 +37,9 @@ export default new Vuex.Store({
       const item = this.state.items.find(x => x.id === payload.id);
       console.log('Item' + item);
       this.commit('SAVE_CURRENT_ITEM', item);
+    },
+    setModal() {
+      this.commit('SET_MODAL', !this.state.showModal);
     }
   },
   modules: {

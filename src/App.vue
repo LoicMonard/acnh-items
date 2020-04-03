@@ -1,17 +1,28 @@
 <template>
   <div id="app">
     <Navbar/>
+    <Modal v-if="showModal"/>
     <router-view/>
   </div>
 </template>
 
 <script>
 import Navbar from '@/components/Navbar.vue'
+import Modal from '@/components/Modal.vue'
+import { mapGetters } from 'vuex'
 
 export default {
   name: 'app',
+  data: () => ({
+  }),
+  computed: {
+    showModal() {
+      return this.$store.state.showModal;
+    }
+  },
   components: {
-    Navbar
+    Navbar,
+    Modal
   },
   methods: {
     // ...mapActions(['getAllItems'])

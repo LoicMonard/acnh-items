@@ -1,13 +1,13 @@
 <template>
   <div class="item-details">
-    <h1>{{ item.name }}</h1>
     <div class="wrapper">
       <img :src="item.image"/>
       <div class="details">
+        <h3>{{ item.name }}</h3>
         <div class="recipe">
           <div class="wrapper">
             <img src="../assets/recipe.png">
-            <h3>Recette de craft</h3>
+            <h4>Recette de craft</h4>
           </div>
           <div
             class="recipe-list"
@@ -20,7 +20,7 @@
         <div class="price">
           <div class="wrapper">
             <img src="../assets/money.png">
-            <h3>Prix du catalogue</h3>
+            <h4>Prix du catalogue</h4>
           </div>
           <div class="item-price">
             <span class="item-price">{{ item.price }} clochettes</span>
@@ -29,7 +29,7 @@
         <div class="obtention">
           <div class="wrapper">
             <img src="../assets/item.png">
-            <h3>Moyen d'obtention</h3>
+            <h4>Moyen d'obtention</h4>
           </div>
           <div class="item-obtention">
             <span class="item-obtention">{{ item.obtention }} Cadeau</span>
@@ -71,6 +71,9 @@ export default {
         width: 100%;
         margin-left: 24px;
         text-align: left;
+        h4 {
+          margin: 12px 0;
+        }
         .recipe, .price, .obtention {
           width: 100%;
           display: flex;
@@ -79,8 +82,9 @@ export default {
             align-items: center;
           }
           img {
-            width: 24px;
-            height: 24px;
+            width: 18px;
+            height: 18px;
+            margin-right: 4px;
           }
         }
       }
