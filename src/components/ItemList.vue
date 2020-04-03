@@ -1,35 +1,48 @@
 <template>
-  <div class="items">
+  <div class="item-list">
     <h1>Items</h1>
-    <div
-      v-for="document in documents"
-      :key="document.name">
-      {{ document.name }}
+    <div class="items">
+      <Item 
+        v-for="item in items"
+        :key="item.name"
+        v-bind:data="item"
+        @click.native="getItemDetails(item)"/>
     </div>
   </div>
 </template>
 
 <script>
+import Item from '@/components/Item.vue'
 import { db } from '../firebase/firebase.js'
+import router from 'vue-router'
+import { mapGetters } from 'vuex'
 
 export default {
   name: 'items',
+  components: {
+    Item
+  },
   data: () => ({
-    documents: []
   }),
-  created() {
-    console.log('App created');
-    let that = this;
-    db.collection("items").get().then(function(querySnapshot) {
-      querySnapshot.forEach(function(doc) {
-        console.log(doc.id, " => ", doc.data());
-        that.documents.push(doc.data())
-      });
-    });
-  }
+  computed: {
+    items() {
+      return this.$store.state.items;
+    }
+  },
+  methods: {
+    getItemDetails(item) {
+      console.log('click')
+      this.$router.push({ name: 'details', params: item})
+    }
+  },
 }
 </script>
 
 <style lang="scss" scoped>
-
+.item-list {
+  width: 100%;
+  .items {
+    display: flex;
+  }
+}
 </style>

@@ -2,7 +2,8 @@
   <div class="home">
     <img src="../assets/header.png"/>
     <div class="wrapper">
-      <ItemList/>
+      <router-view/>
+      <!-- <ItemList/> -->
     </div>
   </div>
 </template>

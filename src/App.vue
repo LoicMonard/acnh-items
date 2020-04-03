@@ -12,6 +12,12 @@ export default {
   name: 'app',
   components: {
     Navbar
+  },
+  methods: {
+    // ...mapActions(['getAllItems'])
+  },
+  created() {
+    this.$store.dispatch('getAllItems');
   }
 }
 </script>
