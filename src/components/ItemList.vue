@@ -31,16 +31,24 @@ export default {
   },
   methods: {
     getItemDetails(item) {
-      console.log('click')
-      this.$router.push({ name: 'details', params: item})
+      console.log(item.id);
+      this.$store.dispatch('getItemById', { id :item.id });
+      const itemId = this.items.find(x => x.name === 'Bambou').id;
+      this.$router.push({ path: `/details/${itemId}`, params: item})
     }
   },
+  created() {
+    // console.log(this.items)
+  }
 }
 </script>
 
 <style lang="scss" scoped>
 .item-list {
   width: 100%;
+  h1 {
+    text-align: left;
+  }
   .items {
     display: flex;
   }
