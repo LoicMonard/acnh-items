@@ -7,7 +7,7 @@
       </div>
       <div class="right">
         <button>Connexion</button>
-        <button class="filled">Signin</button>
+        <button class="filled">Inscription</button>
       </div>
     </div>
   </div>

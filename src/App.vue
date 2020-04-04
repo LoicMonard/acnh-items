@@ -88,7 +88,6 @@ button {
   outline: inherit;
   color: inherit;
   background-color: inherit;
-  text-transform: capitalize;
   font-family: niveau-grotesk-small-caps, sans-serif;
   font-weight: 400;
   font-style: normal;
@@ -118,5 +117,7 @@ button.filled:hover {
   background: inherit;
   color: rgb(4, 173, 4) !important;
 }
-
+.colored {
+  color: #ff7675;
+}
 </style>

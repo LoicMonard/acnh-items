@@ -9,17 +9,26 @@
         ACNH Items est un site fait à base de contributions, la liste des meubles n'étant pas exhaustive, nous vous invitons à contribuer au 
         maximum pour améliorer le catalogue. 
         <br>Afin de ne pas collecter des informations éronnées, chaque contribution fera l'objet d'une vérification
-        avant d'être publiée. Par respect de la communauté, nous vous demandons d'être certain des informations que vous publiez.
+        avant d'être publiée. Par respect de la communauté, nous vous demandons d'être au maximum certain des informations que vous publiez.
       </p>
     </div>
-    <label>Nom du meuble</label>
+    <label>
+      Nom du meuble
+      <span class="colored">{{ nameError }}</span>
+    </label>
     <input 
       type="text"
       v-model="item.name">
-    <label>Prix du meuble</label>
+    <label>Image du meuble</label>
     <input 
       type="text"
-      v-model="item.price">
+      placeholder="Url"
+      v-model="item.image">
+    <label>Prix du meuble</label>
+    <input 
+      type="number"
+      v-model="item.price"
+      min="0">
     <label>Moyen d'obtention du meuble</label>
     <input 
       type="text"
@@ -39,9 +48,19 @@
       <label>Recette du meuble</label>
       <div 
         class="items-in-recipe"
-        v-for="item in item.recipeItems"
+        v-for="(item, index) in item.recipeItems"
         :key="item.name">
-        {{ item.name }}
+        <div class="wrapper">
+          <span>{{ item.name }}</span>
+          <span class="quantity">
+            x {{ item.quantity }}
+          </span>
+        </div>
+        <i 
+          class="material-icons"
+          @click="removeRecipeItem(index)">
+          clear
+        </i>
       </div>
       <div class="multiple-input">
         <div class="autocomplete">
@@ -74,16 +93,22 @@
         </button>
       </div>
     </div>
+    <button @click="sendContribution()">
+      Ajouter ma contribution
+    </button>
   </div>
 </template>
 
 <script>
+import { db } from '../firebase/firebase.js'
+
 export default {
   name: 'contribute',
   data: () => ({
     toggle: false,
     item: {
       name: '',
+      image: '',
       price: null,
       obtention: null,
       size: {
@@ -106,6 +131,16 @@ export default {
       if (!this.item.recipeItems.find(item => item.name === this.recipe.name) && this.recipe.name) {
         this.item.recipeItems.push({name: this.recipe.name, quantity: this.recipe.quantity});
       }
+    },
+    removeRecipeItem(index) {
+      this.item.recipeItems.splice(index, 1)
+    },
+    sendContribution() {
+      db.collection('contributions')
+        .add(this.item)
+        .then(res => {
+          console.log('ok');
+        })
     }
   },
   computed: {
@@ -113,6 +148,9 @@ export default {
       if (this.$store.state.items.length) {
         return this.$store.state.items.filter(item => item.name.toLowerCase().includes(this.recipe.name.toLowerCase())).slice(0, 3);
       }
+    },
+    nameError() {
+      return this.item.name ? "" : "Ce champ est obligatoire";
     }
   }
 }
@@ -164,6 +202,26 @@ export default {
       }
     }
   }
-  
+  .recipe {
+    label {
+      padding: 10px 0 !important;
+    }
+    .items-in-recipe {
+      max-width: 400px;
+      padding: 4px 8px;
+      margin: 6px 0;
+      border-radius: 4px;
+      display: flex;
+      justify-content: space-between;
+      background: #202020;  
+      color: rgb(235, 235, 235);
+      font-style: italic;
+      border-left: 3px solid rgb(4, 173, 4);
+      i {
+        align-self: flex-end;
+        cursor: pointer;
+      }
+    }
+  }
 }
 </style>
