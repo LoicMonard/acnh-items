@@ -17,7 +17,7 @@ export default {
   name: 'modal',
   methods: {
     closeModal() {
-      this.$store.dispatch('setModal');
+      this.$store.dispatch('setDetailsModal');
     }
   },
   components: {

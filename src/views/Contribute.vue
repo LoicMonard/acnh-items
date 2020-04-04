@@ -9,7 +9,7 @@
         ACNH Items est un site fait à base de contributions, la liste des meubles n'étant pas exhaustive, nous vous invitons à contribuer au 
         maximum pour améliorer le catalogue. 
         <br>Afin de ne pas collecter des informations éronnées, chaque contribution fera l'objet d'une vérification
-        avant d'être publiée. Par respect de la communauté, nous vous demandons d'être au maximum certain des informations que vous publiez.
+        avant d'être publiée. Par respect de la communauté, nous vous demandons d'être le plus précis sur les informations que vous publiez.
       </p>
     </div>
     <label>
@@ -173,6 +173,10 @@ export default {
     },
     nameError() {
       return this.item.name ? "" : "Ce champ est obligatoire";
+      let array = [{id: 1}, {id: 2}, {id: 3}, {id: 4}, {id: 5}]
+      let array2 = [2,3]
+      const r = array.filter(i => array2.includes(i.id))
+
     }
   }
 }

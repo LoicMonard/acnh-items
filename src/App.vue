@@ -1,7 +1,8 @@
 <template>
   <div id="app">
     <Navbar/>
-    <Modal v-if="showModal"/>
+    <Modal v-if="showDetailsModal"/>
+    <ListModal v-if="showListModal"/>
     <router-view/>
   </div>
 </template>
@@ -9,6 +10,7 @@
 <script>
 import Navbar from '@/components/Navbar.vue'
 import Modal from '@/components/Modal.vue'
+import ListModal from '@/components/ListModal.vue'
 import store from './store/index'
 import { mapGetters } from 'vuex'
 import { auth } from './firebase/firebase'
@@ -18,19 +20,24 @@ export default {
   data: () => ({
   }),
   computed: {
-    showModal() {
-      return this.$store.state.showModal;
+    showDetailsModal() {
+      return this.$store.state.showDetailsModal;
+    },
+    showListModal() {
+      return this.$store.state.showListModal;
     }
   },
   components: {
     Navbar,
-    Modal
+    Modal,
+    ListModal
   },
   methods: {
     // ...mapActions(['getAllItems'])
   },
   mounted() {
     this.$store.dispatch('getAllItems');
+    this.$store.dispatch('getAllLists');
     auth.onAuthStateChanged(function(user) {
       if (user) {
         store.dispatch("fetchUser", user);

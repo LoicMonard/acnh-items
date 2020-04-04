@@ -17,6 +17,12 @@
         >
         Contribuer
       </button>
+      <button 
+        class=""
+        @click="addToList()"
+        >
+        Ajouter à une liste
+      </button>
     </div>
     <div class="items">
       <transition-group
@@ -27,8 +33,7 @@
           class="item"
           v-for="item in items"
           :key="item.name"
-          v-bind:data="item"
-          @click.native="getItemDetails(item)"/>
+          v-bind:data="item"/>
       </transition-group>
     </div>
   </div>
@@ -59,12 +64,15 @@ export default {
     getItemDetails(item) {
       console.log(item.id);
       this.$store.dispatch('getItemById', { id :item.id });
-      this.$store.dispatch('setModal');
+      this.$store.dispatch('setDetailsModal');
       // const itemId = this.items.find(x => x.name === 'Bambou').id;
       // this.$router.push({ path: `/details/${itemId}`, params: item})
     },
     contribute() {
       this.$router.push('/contribute');
+    },
+    addToList() {
+      this.$store.dispatch('setListModal');
     }
   }
 }
