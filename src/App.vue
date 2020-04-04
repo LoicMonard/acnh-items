@@ -46,7 +46,7 @@ html, body {
   color: #2c3e50;
 }
 
-input[type=text], input[type=email], input[type=password] {
+input[type=text], input[type=email], input[type=password], input[type=number] {
   border: 1px solid rgb(218, 218, 218);
   border-radius: 4px;
   padding: 10px;
@@ -76,6 +76,47 @@ label {
   text-align: left;
   color: #5f5f5f;
   font-size: 14px;
+}
+
+button {
+  height: 40px;
+  border: 1px solid rgb(4, 173, 4);
+  border-radius: 4px;
+  color: rgb(4, 173, 4) !important;
+  padding: 8px 20px;
+  font-size: 16px;
+  outline: inherit;
+  color: inherit;
+  background-color: inherit;
+  text-transform: capitalize;
+  font-family: niveau-grotesk-small-caps, sans-serif;
+  font-weight: 400;
+  font-style: normal;
+  cursor: pointer;
+  transition: all .2s ease;
+  user-select: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  i {
+    font-size: 14px;
+    margin-left: 4px;
+  }
+}
+button.rounded {
+  border-radius: 16px;
+}
+button.filled {
+  background-color: rgb(4, 173, 4);
+  color: #fff !important;
+}
+button:hover {
+  background: rgb(4, 173, 4);
+  color: #fff !important;
+}
+button.filled:hover {
+  background: inherit;
+  color: rgb(4, 173, 4) !important;
 }
 
 </style>

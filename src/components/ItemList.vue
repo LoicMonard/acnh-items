@@ -4,10 +4,20 @@
       <img src="../assets/item.png"/>
       Liste des meubles
     </h1>
-    <label>Rechercher par nom</label>
-    <input 
-      type="text" 
-      v-model="search"/>
+    <div class="actions">
+      <div class="input-wrapper">
+        <label>Rechercher par nom</label>
+        <input 
+          type="text" 
+          v-model="search"/>
+      </div>
+      <button 
+        class="filled"
+        @click="contribute()"
+        >
+        Contribuer
+      </button>
+    </div>
     <div class="items">
       <transition-group
         name="list" 
@@ -53,6 +63,9 @@ export default {
       // const itemId = this.items.find(x => x.name === 'Bambou').id;
       // this.$router.push({ path: `/details/${itemId}`, params: item})
     },
+    contribute() {
+      this.$router.push('/contribute');
+    }
   }
 }
 </script>
@@ -71,6 +84,17 @@ export default {
     align-items: center;
     img {
       margin-right: 8px;
+    }
+  }
+  .actions {
+    display: flex;
+    align-items: flex-end;
+    > * {
+      margin-right: 8px;
+    }
+    .input-wrapper {
+      display: flex;
+      flex-direction: column;
     }
   }
   .items {

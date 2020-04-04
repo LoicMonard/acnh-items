@@ -7,7 +7,7 @@
       </div>
       <div class="right">
         <button>Connexion</button>
-        <button>Signin</button>
+        <button class="filled">Signin</button>
       </div>
     </div>
   </div>
@@ -35,11 +35,14 @@ export default {
     align-items: center;
     justify-content: space-between;
     width: 70%;
-    .left {
+    .left, .right {
       display: flex;
       align-items: center;
       img {
         height: 30px;
+        margin: 0 4px;
+      }
+      button {
         margin: 0 4px;
       }
     }
