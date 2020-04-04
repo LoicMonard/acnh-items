@@ -35,7 +35,7 @@ export default {
       if (user) {
         store.dispatch("fetchUser", user);
       } else {
-        console.log('no user');
+        store.dispatch("fetchUser", user);
       }
     });
   }

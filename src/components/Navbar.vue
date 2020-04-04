@@ -7,13 +7,21 @@
       </div>
       <div class="right">
         <button 
-          v-if="!user"
+          v-if="!user.email"
           class="filled"
           @click="googleRegister()">
           Connexion
         </button>
-        <div class="connected">
-          Bienvenue <span class="user-display-name">{{ user }}</span>
+        <div 
+          class="connected"
+          v-else>
+          <span>Bienvenue</span>
+          <span class="user-display-name"> {{ user.displayName }}</span>
+          <i 
+            class="material-icons"
+            @click="signOut()">
+            power_settings_new
+          </i>
         </div>
       </div>
     </div>
@@ -29,7 +37,7 @@ export default {
   },
   computed: {
     user() {
-      return this.$store.state.user.displayName
+      return this.$store.state.user
     }
   },
   methods: {
@@ -43,6 +51,16 @@ export default {
           console.error(err.message);
         });
     },
+    signOut() {
+      const provider = new authObj.GoogleAuthProvider();
+      auth
+        .signOut()
+        .then(() => {
+          this.$router.replace({
+            path: ""
+          });
+        });
+    }
   }
 }
 </script>
@@ -75,8 +93,13 @@ export default {
     .right {
       .connected {
         font-style: italic;
+        display: flex;
         .user-display-name {
           font-weight: 500;
+          margin: 0 4px;
+        }
+        i {
+          cursor: pointer;
         }
       }
     }

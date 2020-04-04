@@ -93,7 +93,7 @@
         </button>
       </div>
     </div>
-    <button @click="sendContribution()">
+    <button @click="checkUser()">
       Ajouter ma contribution
     </button>
   </div>
@@ -101,6 +101,7 @@
 
 <script>
 import { db } from '../firebase/firebase.js'
+import { auth, authObj } from '../firebase/firebase'
 
 export default {
   name: 'contribute',
@@ -122,6 +123,11 @@ export default {
       quantity: 1
     }
   }),
+  computed: {
+    user() {
+      return this.$store.state.user
+    }
+  },
   methods: {
     selectResult(item) {
       this.recipe.name = item.name;
@@ -135,12 +141,28 @@ export default {
     removeRecipeItem(index) {
       this.item.recipeItems.splice(index, 1)
     },
+    checkUser() {
+      console.log(this.user);
+      if (!this.user) {
+        const provider = new authObj.GoogleAuthProvider();
+        auth
+          .signInWithPopup(provider)
+          .then(data => {
+            this.sendContribution();
+          })
+          .catch(err => {
+            console.error(err.message);
+          });
+      } else {
+        this.sendContribution();
+      }
+    },
     sendContribution() {
       db.collection('contributions')
-        .add(this.item)
-        .then(res => {
-          console.log('ok');
-        })
+      .add(this.item)
+      .then(res => {
+        console.log('ok');
+      })
     }
   },
   computed: {

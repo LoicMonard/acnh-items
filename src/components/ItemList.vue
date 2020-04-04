@@ -96,6 +96,9 @@ export default {
       display: flex;
       flex-direction: column;
     }
+    button {
+      margin-bottom: 10px;
+    }
   }
   .items {
     display: flex;

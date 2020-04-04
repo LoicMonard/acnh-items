@@ -52,7 +52,7 @@ export default new Vuex.Store({
           email: user.email
         });
       } else {
-        commit("SET_USER", null);
+        commit("SET_USER", []);
       }
     }
   },
