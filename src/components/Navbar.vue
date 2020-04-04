@@ -2,7 +2,8 @@
   <div class="navbar">
     <div class="wrapper">
       <div class="left">
-        <router-link to="">ACNH Items</router-link>
+        <img src="../assets/item.png">
+        <router-link tag="h3" to="">ACNH Items</router-link>
       </div>
       <div class="right">
         <button>Connexion</button>
@@ -34,7 +35,14 @@ export default {
     align-items: center;
     justify-content: space-between;
     width: 70%;
-    
+    .left {
+      display: flex;
+      align-items: center;
+      img {
+        height: 30px;
+        margin: 0 4px;
+      }
+    }
   }
 }
 </style>

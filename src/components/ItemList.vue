@@ -1,12 +1,16 @@
 <template>
   <div class="item-list">
     <h1>Items</h1>
+    <input type="text" v-model="search"/>
     <div class="items">
-      <Item 
-        v-for="item in items"
-        :key="item.name"
-        v-bind:data="item"
-        @click.native="getItemDetails(item)"/>
+      <transition-group name="list" tag="div" class="container">
+        <Item 
+          class="item"
+          v-for="item in items"
+          :key="item.name"
+          v-bind:data="item"
+          @click.native="getItemDetails(item)"/>
+      </transition-group>
     </div>
   </div>
 </template>
@@ -23,10 +27,13 @@ export default {
     Item
   },
   data: () => ({
+    search : ''
   }),
   computed: {
     items() {
-      return this.$store.state.items;
+      if (this.$store.state.items.length) {
+        return this.$store.state.items.filter(item => item.name.toLowerCase().includes(this.search.toLowerCase()));;
+      }
     }
   },
   methods: {
@@ -36,10 +43,7 @@ export default {
       this.$store.dispatch('setModal');
       // const itemId = this.items.find(x => x.name === 'Bambou').id;
       // this.$router.push({ path: `/details/${itemId}`, params: item})
-    }
-  },
-  created() {
-    // console.log(this.items)
+    },
   }
 }
 </script>
@@ -52,6 +56,18 @@ export default {
   }
   .items {
     display: flex;
+    .container {
+      display: flex;
+    }
   }
+}
+.item {
+  transition: all 1s;
+}
+.list-enter, .list-leave-to {
+  opacity: 0;
+}
+.list-leave-active {
+  position: absolute;
 }
 </style>

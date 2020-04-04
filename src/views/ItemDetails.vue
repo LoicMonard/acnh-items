@@ -69,8 +69,12 @@ export default {
       width: 100%;
       .details {
         width: 100%;
-        margin-left: 24px;
+        padding: 24px;
         text-align: left;
+        h3 {
+          margin-top: 0;
+          margin-bottom: 12px;
+        }
         h4 {
           margin: 12px 0;
         }

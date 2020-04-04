@@ -28,6 +28,8 @@ export default {
   display: flex;
   width: 200px;
   height: 200px;
+  transition: all 1s;
+  cursor: pointer;
   .card {
     width: 100%;
     padding: 12px;
@@ -40,6 +42,7 @@ export default {
     &:hover {
       .left-menu {
         transform: translateX(-12px);
+        opacity: 1;
       }
     }
     .overlay {
@@ -64,6 +67,7 @@ export default {
       right: 0;
       transform: translateX(36px);
       transition: all .3s ease;
+      opacity: 0;
       img {
         padding: 8px 0;
       }
