@@ -9,7 +9,9 @@
 <script>
 import Navbar from '@/components/Navbar.vue'
 import Modal from '@/components/Modal.vue'
+import store from './store/index'
 import { mapGetters } from 'vuex'
+import { auth } from './firebase/firebase'
 
 export default {
   name: 'app',
@@ -27,8 +29,15 @@ export default {
   methods: {
     // ...mapActions(['getAllItems'])
   },
-  created() {
+  mounted() {
     this.$store.dispatch('getAllItems');
+    auth.onAuthStateChanged(function(user) {
+      if (user) {
+        store.dispatch("fetchUser", user);
+      } else {
+        console.log('no user');
+      }
+    });
   }
 }
 </script>

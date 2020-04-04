@@ -8,7 +8,8 @@ export default new Vuex.Store({
   state: {
     items: '',
     currentItem: '',
-    showModal: false
+    showModal: false,
+    user: []
   },
   mutations: {
     SAVE_ITEMS(state, payload) {
@@ -19,6 +20,9 @@ export default new Vuex.Store({
     },
     SET_MODAL(state, payload) {
       state.showModal = payload;
+    },
+    SET_USER(state, data) {
+      state.user = data;
     }
   },
   actions: {
@@ -40,6 +44,16 @@ export default new Vuex.Store({
     },
     setModal() {
       this.commit('SET_MODAL', !this.state.showModal);
+    },
+    fetchUser({ commit }, user) {
+      if (user) {
+        commit("SET_USER", {
+          displayName: user.displayName,
+          email: user.email
+        });
+      } else {
+        commit("SET_USER", null);
+      }
     }
   },
   modules: {

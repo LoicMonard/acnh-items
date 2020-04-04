@@ -6,17 +6,43 @@
         <router-link tag="h3" to="">ACNH Items</router-link>
       </div>
       <div class="right">
-        <button>Connexion</button>
-        <button class="filled">Inscription</button>
+        <button 
+          v-if="!user"
+          class="filled"
+          @click="googleRegister()">
+          Connexion
+        </button>
+        <div class="connected">
+          Bienvenue <span class="user-display-name">{{ user }}</span>
+        </div>
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import { auth, authObj } from '../firebase/firebase'
+
 export default {
   name: 'navbar',
   props: {
+  },
+  computed: {
+    user() {
+      return this.$store.state.user.displayName
+    }
+  },
+  methods: {
+    googleRegister() {
+      const provider = new authObj.GoogleAuthProvider();
+      auth
+        .signInWithPopup(provider)
+        .then(data => {
+        })
+        .catch(err => {
+          console.error(err.message);
+        });
+    },
   }
 }
 </script>
@@ -44,6 +70,14 @@ export default {
       }
       button {
         margin: 0 4px;
+      }
+    }
+    .right {
+      .connected {
+        font-style: italic;
+        .user-display-name {
+          font-weight: 500;
+        }
       }
     }
   }
