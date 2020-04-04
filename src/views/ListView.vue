@@ -1,6 +1,7 @@
 <template>
   <div class="list-view">
-    <ItemList/>
+    Listview
+    <ItemList mode="list"/>
   </div>
 </template>
 

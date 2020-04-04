@@ -87,7 +87,6 @@ export default {
       if (param == "create") {
         this.$store.dispatch('createList', { name: this.listName, author: this.user, id: 0 })
       }
-
     }
   },
   components: {

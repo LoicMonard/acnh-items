@@ -1,10 +1,8 @@
 <template>
   <div class="home">
-    <img src="../assets/header.png"/>
+    <!-- <img src="../assets/header.png"/>
     <div class="wrapper">
-      <router-view/>
-      <!-- <ItemList/> -->
-    </div>
+    </div> -->
   </div>
 </template>
 

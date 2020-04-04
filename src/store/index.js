@@ -53,7 +53,7 @@ export default new Vuex.Store({
         // .orderBy('name')
         .get()
         .then(querySnapshot => {
-          const documents = querySnapshot.docs.map(doc => doc.data())
+          const documents = querySnapshot.docs.map(doc => Object.assign(doc.data(), { id: doc.id } ))
           that.commit('SAVE_ITEMS', documents);
         })
     },
@@ -64,7 +64,7 @@ export default new Vuex.Store({
         // .orderBy('name')
         .get()
         .then(querySnapshot => {
-          const documents = querySnapshot.docs.map(doc => Object.assign(doc.data(), {id: doc.id}))
+          const documents = querySnapshot.docs.map(doc => Object.assign(doc.data(), { id: doc.id }))
           that.commit('SAVE_LISTS', documents);
         })
     },
@@ -107,7 +107,20 @@ export default new Vuex.Store({
       setCurrentList(newObj);
     },
     setCurrentList({ commit }, list) {
-      this.commit('UNSELECT_ITEM', list)
+      this.commit('SET_CURRENT_LIST', list)
+    },
+    getCurrentList({ commit }, payload) {
+      let document = "";
+      let that = this;
+      db.collection("lists")
+        .doc(payload.id)
+        // .orderBy('name')
+        .get()
+        .then(doc => {
+          console.log('Doc loaded');
+          document = Object.assign(doc.data(), { id: doc.id })
+          that.commit('SET_CURRENT_LIST', document)
+        })
     }
   },
   modules: {

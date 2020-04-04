@@ -11,35 +11,37 @@ Vue.use(VueRouter)
 const routes = [
   {
     path: '/',
-    name: 'Home',
-    component: Home,
-    children: [
-      {
-        name: 'items',
-        path: 'items',
-        component: ItemList
-      },
-      {
-        name: 'details',
-        path: 'details/:id',
-        component: ItemDetails
-      },
-      {
-        path: 'contribute',
-        name: 'Contribute',
-        component: Contribute
-      },
-      {
-        name: 'lists',
-        path: 'lists/:id',
-        component: ListView
-      }
-    ],
+    name: 'items',
+    component: ItemList,
   },
+  {
+    path: '*',
+    component: ItemList
+  },
+  {
+    path: '/items',
+    name: 'items',
+    component: ItemList
+  },
+  {
+    path: '/details/:id',
+    name: 'details',
+    component: ItemDetails
+  },
+  {
+    path: '/contribute',
+    name: 'Contribute',
+    component: Contribute
+  },
+  {
+    path: '/lists/:id',
+    name: 'lists',
+    component: ListView
+  }
 ]
 
 const router = new VueRouter({
-  mode: 'history',
+  mode: 'hash',
   base: process.env.BASE_URL,
   routes
 })

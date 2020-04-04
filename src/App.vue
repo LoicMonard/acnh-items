@@ -1,9 +1,12 @@
 <template>
   <div id="app">
+    <img src="./assets/header.png"/>
     <Navbar/>
     <Modal v-if="showDetailsModal"/>
     <ListModal v-if="showListModal"/>
-    <router-view/>
+    <div class="wrapper">
+      <router-view/>
+    </div>
   </div>
 </template>
 
@@ -58,8 +61,22 @@ html, body {
 	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  text-align: center;
   color: #2c3e50;
+}
+
+#app {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  > img {
+    width: 100%;
+  }
+  .wrapper {
+    width: 70%;
+    display: flex;
+    
+  }
 }
 
 input[type=text], input[type=email], input[type=password], input[type=number] {

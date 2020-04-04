@@ -21,7 +21,7 @@
         class=""
         @click="addToList()"
         >
-        Ajouter à une liste
+          Ajouter à une liste
       </button>
     </div>
     <div class="items">
@@ -53,17 +53,24 @@ export default {
   data: () => ({
     search : ''
   }),
+  props: ["mode"],
   computed: {
+    currentList() {
+      return this.$store.state.currentList;
+    },
     items() {
+      if (this.mode === "list" && this.$store.state.items.length && this.$store.state.currentList) {
+        return this.$store.state.items.filter(item => this.currentList.items.includes(item.id)).filter(item => item.name.toLowerCase().includes(this.search.toLowerCase()));
+      }
       if (this.$store.state.items.length) {
-        return this.$store.state.items.filter(item => item.name.toLowerCase().includes(this.search.toLowerCase()));;
+        return this.$store.state.items.filter(item => item.name.toLowerCase().includes(this.search.toLowerCase()));
       }
     }
   },
   methods: {
     getItemDetails(item) {
       console.log(item.id);
-      this.$store.dispatch('getItemById', { id :item.id });
+      this.$store.dispatch('getItemById', { id: item.id });
       this.$store.dispatch('setDetailsModal');
       // const itemId = this.items.find(x => x.name === 'Bambou').id;
       // this.$router.push({ path: `/details/${itemId}`, params: item})
@@ -73,6 +80,12 @@ export default {
     },
     addToList() {
       this.$store.dispatch('setListModal');
+    }
+  },
+  mounted() {
+    if (!this.currentList && this.mode === "list") {
+      this.$store.dispatch('getCurrentList', { id: this.$route.params.id })
+      // console.log(this.$route.params.id)
     }
   }
 }
