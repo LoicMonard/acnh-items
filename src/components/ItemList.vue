@@ -1,9 +1,18 @@
 <template>
   <div class="item-list">
-    <h1>Items</h1>
-    <input type="text" v-model="search"/>
+    <h1>
+      <img src="../assets/item.png"/>
+      Liste des meubles
+    </h1>
+    <label>Rechercher par nom</label>
+    <input 
+      type="text" 
+      v-model="search"/>
     <div class="items">
-      <transition-group name="list" tag="div" class="container">
+      <transition-group
+        name="list" 
+        tag="div" 
+        class="container">
         <Item 
           class="item"
           v-for="item in items"
@@ -51,8 +60,18 @@ export default {
 <style lang="scss" scoped>
 .item-list {
   width: 100%;
+  display: flex;
+  flex-direction: column;
+  input {
+    width: 200px;
+  }
   h1 {
     text-align: left;
+    display: flex;
+    align-items: center;
+    img {
+      margin-right: 8px;
+    }
   }
   .items {
     display: flex;

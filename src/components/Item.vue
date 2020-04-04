@@ -24,7 +24,7 @@ export default {
 
 <style lang="scss" scoped>
 .item {
-  margin: 10px;
+  margin: 10px 20px 0 0;
   display: flex;
   width: 200px;
   height: 200px;
