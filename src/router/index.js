@@ -11,7 +11,7 @@ Vue.use(VueRouter)
 const routes = [
   {
     path: '/',
-    name: 'items',
+    name: '',
     component: ItemList,
   },
   {
@@ -41,7 +41,7 @@ const routes = [
 ]
 
 const router = new VueRouter({
-  mode: 'hash',
+  mode: 'history',
   base: process.env.BASE_URL,
   routes
 })

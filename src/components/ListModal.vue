@@ -27,13 +27,13 @@
                 :key="list.name">
                 <i 
                   class="material-icons"
-                  @click.prevent="selectItem()"
+                  @click.prevent="selectedList = list"
                   v-if="list.name == selectedList.name">
                   radio_button_checked
                 </i>
                 <i 
                   class="material-icons"
-                  @click.prevent="selectItem()"
+                  @click.prevent="selectedList = list"
                   v-else>
                   radio_button_unchecked
                 </i>
@@ -86,6 +86,8 @@ export default {
     addToList(param) {
       if (param == "create") {
         this.$store.dispatch('createList', { name: this.listName, author: this.user, id: 0 })
+      } if (param == "add") {
+        this.$store.dispatch('addToList', { list: this.selectedList })
       }
     }
   },

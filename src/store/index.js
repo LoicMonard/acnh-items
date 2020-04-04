@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import { db } from '../firebase/firebase'
+import { db, FieldValue } from '../firebase/firebase'
 
 Vue.use(Vuex)
 
@@ -110,7 +110,6 @@ export default new Vuex.Store({
       this.commit('SET_CURRENT_LIST', list)
     },
     getCurrentList({ commit }, payload) {
-      let document = "";
       let that = this;
       db.collection("lists")
         .doc(payload.id)
@@ -118,8 +117,20 @@ export default new Vuex.Store({
         .get()
         .then(doc => {
           console.log('Doc loaded');
-          document = Object.assign(doc.data(), { id: doc.id })
+          const document = Object.assign(doc.data(), { id: doc.id })
           that.commit('SET_CURRENT_LIST', document)
+        })
+    },
+    addToList({ commit }, payload) {
+      let that = this;
+      console.log(payload.list.items.concat(that.state.selectedItems))
+      db.collection("lists")
+        .doc(payload.list.id)
+        .update({
+          items: payload.list.items.concat(that.state.selectedItems)
+        })
+        .then(doc => {
+          console.log('Update is ok');
         })
     }
   },
