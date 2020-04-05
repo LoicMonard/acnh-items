@@ -97,7 +97,7 @@ export default {
   position: fixed;
   z-index: 1;
   top: 0;
-  width: 100%;
+  width: 100vw;
   height: 64px;
   background: #fff;
   display: flex;
@@ -134,6 +134,18 @@ export default {
         }
         i {
           cursor: pointer;
+        }
+      }
+    }
+  }
+}
+
+@media only screen and (max-width: 600px)  {
+  .navbar {
+    .wrapper {
+      .left {
+        h3 {
+          display: none;
         }
       }
     }

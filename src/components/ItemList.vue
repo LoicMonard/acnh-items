@@ -123,6 +123,7 @@ export default {
   }
   .actions {
     display: flex;
+    flex-wrap: wrap;
     align-items: flex-end;
     > * {
       margin-right: 8px;

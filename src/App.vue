@@ -165,4 +165,11 @@ button.filled:hover {
 .colored {
   color: #ff7675;
 }
+
+@media only screen and (max-width: 425px)  {
+  button {
+    font-size: 14px;
+    padding: 4px 10px;
+  }
+}
 </style>

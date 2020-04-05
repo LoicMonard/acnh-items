@@ -167,4 +167,34 @@ export default {
     }
   }
 }
+
+@media only screen and (max-width: 1024px)  {
+  .item {
+    width: 150px;
+    height: 150px;
+  }
+}
+
+@media only screen and (max-width: 425px)  {
+  .item {
+    width: 100px;
+    height: 100px;
+    margin: 5px;
+    .overlay {
+      font-size: 12px;
+    }
+    .left-menu {
+      top: 4px;
+      right: 4px;
+      i {
+        font-size: 16px;
+      }
+      img {
+        width: 16px;
+        height: 16px;
+      }
+    }
+  }
+}
+
 </style>

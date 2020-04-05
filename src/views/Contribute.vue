@@ -221,7 +221,6 @@ export default {
 <style lang="scss" scoped>
 .contribute {
   width: 100%;
-  margin-bottom: 20px;
   text-align: start;
   display: flex;
   flex-direction: column;
@@ -243,6 +242,7 @@ export default {
   }
   .multiple-input {
     display: flex;
+    flex-wrap: wrap;
     input, > button {
       margin-right: 4px;
     }
@@ -300,7 +300,7 @@ export default {
     }
   }
   .submit {
-    margin: 20px 0;
+    margin-top: 20px;
   }
 }
 </style>
