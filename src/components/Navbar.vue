@@ -85,7 +85,6 @@ export default {
             console.error(err.message);
           });
       } else {
-        console.log('user in on');
         this.goToLists();
       }
     },

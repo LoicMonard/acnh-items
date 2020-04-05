@@ -75,7 +75,6 @@ export default new Vuex.Store({
     },
     getItemById({commit}, payload) {
       const item = this.state.items.find(x => x.id === payload.id);
-      console.log('Item' + item);
       this.commit('SAVE_CURRENT_ITEM', item);
     },
     setDetailsModal() {
@@ -108,7 +107,6 @@ export default new Vuex.Store({
       .add(newObj)
       .then(res => {
         router.push({ path: `/lists/${res.id}` })
-        console.log(res.id);
       })
       dispatch('setCurrentList', newObj);
       dispatch('setListModal')
@@ -120,12 +118,10 @@ export default new Vuex.Store({
     },
     getCurrentList({ commit }, payload) {
       let that = this;
-      console.log('getCurrentList store');
       db.collection("lists")
         .doc(payload.id)
         .get()
         .then(doc => {
-          console.log('Doc loaded');
           const document = Object.assign(doc.data(), { id: doc.id })
           that.commit('SET_CURRENT_LIST', document)
         })
@@ -140,7 +136,6 @@ export default new Vuex.Store({
         .then(doc => {
           const index = that.state.lists.indexOf(payload.list);
           that.state.lists[index].items = payload.list.items.concat(that.state.selectedItems);
-          console.log('Update is ok');
         })
     }
   },

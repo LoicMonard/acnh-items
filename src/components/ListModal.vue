@@ -46,7 +46,9 @@
             </div>
           </div>
           <div class="modal-footer">
-            <button @click="closeModal()">
+            <button 
+              class="filled"
+              @click="closeModal()">
               Annuler
             </button>
             <button 
@@ -106,7 +108,6 @@ export default {
             console.error(err.message);
           });
       } else {
-        console.log('user in on');
         this.addToList('create');
       }
     },

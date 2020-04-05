@@ -56,11 +56,8 @@ export default {
       this.$store.dispatch('selectItem', this.data.id);
     },
     getItemDetails(item) {
-      console.log(item.id);
       this.$store.dispatch('getItemById', { id :item.id });
       this.$store.dispatch('setDetailsModal');
-      // const itemId = this.items.find(x => x.name === 'Bambou').id;
-      // this.$router.push({ path: `/details/${itemId}`, params: item})
     }
   },
 }

@@ -56,7 +56,6 @@ export default {
         .doc(contribution.id)
         .delete()
         .then(doc => {
-          console.log('Contribution delete');
           const index = that.contributions.indexOf(contribution);
           that.contributions.splice(index, 1);
           
@@ -67,7 +66,6 @@ export default {
       db.collection('items')
         .add(contribution)
         .then(doc => {
-          console.log('Contribution validated');
           that.rejectContribution(contribution);
         });
     }
@@ -78,7 +76,6 @@ export default {
     db.collection("contributions")
       .get()
       .then(querySnapshot => {
-        console.log('ok');
         const documents = querySnapshot.docs.map(doc => Object.assign(doc.data(), { id: doc.id } ))
         that.contributions = documents;
       })

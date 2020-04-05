@@ -128,7 +128,9 @@
         </button>
       </div>
     </div>
-    <button @click="checkUser()">
+    <button 
+      @click="checkUser()"
+      class="submit">
       Ajouter ma contribution
     </button>
   </div>
@@ -202,7 +204,7 @@ export default {
       }
     },
     sendContribution() {
-      db.collection('items')
+      db.collection('contributions')
       .add(this.item)
       .then(res => {
         this.$toasted.success('Contribution envoyée', { duration: 3000, position: 'bottom-right', fitToScreen: true});
@@ -289,6 +291,9 @@ export default {
         margin-right: 4px;
       }
     }
+  }
+  .submit {
+    margin: 20px 0;
   }
 }
 </style>

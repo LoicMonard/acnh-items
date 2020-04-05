@@ -18,7 +18,7 @@
         Contribuer
       </button>
       <button 
-        class=""
+        class="filled"
         @click="addToList()"
         >
           Ajouter à une liste
@@ -85,7 +85,6 @@ export default {
   },
   methods: {
     getItemDetails(item) {
-      console.log(item.id);
       this.$store.dispatch('getItemById', { id: item.id });
       this.$store.dispatch('setDetailsModal');
       // const itemId = this.items.find(x => x.name === 'Bambou').id;
@@ -100,7 +99,6 @@ export default {
   },
   mounted() {
     if (!this.currentList && this.mode === "list") {
-      console.log(this.$route.params.id)
       this.$store.dispatch('getCurrentList', { id: this.$route.params.id })
     }
   }
