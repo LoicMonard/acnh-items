@@ -40,7 +40,6 @@ export default {
   },
   mounted() {
     this.$store.dispatch('getAllItems');
-    this.$store.dispatch('getAllLists');
     auth.onAuthStateChanged(function(user) {
       if (user) {
         console.log(user);

@@ -34,8 +34,13 @@ const routes = [
     component: Contribute
   },
   {
-    path: '/lists/:id',
+    path: '/lists',
     name: 'lists',
+    component: ListView
+  },
+  {
+    path: '/lists/:id',
+    name: 'listsid',
     component: ListView
   }
 ]

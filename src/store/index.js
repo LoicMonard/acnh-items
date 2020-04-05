@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import { db, FieldValue } from '../firebase/firebase'
+import router from '../router/index'
 
 Vue.use(Vuex)
 
@@ -43,6 +44,9 @@ export default new Vuex.Store({
     },
     SET_CURRENT_LIST(state, payload) {
       state.currentList = payload;
+    },
+    ADD_TO_LIST(state, payload) {
+      state.lists.push(payload);
     }
   },
   actions: {
@@ -62,6 +66,7 @@ export default new Vuex.Store({
       let that = this;
       db.collection("lists")
         // .orderBy('name')
+        .where("author.email", "==", that.state.user.email)
         .get()
         .then(querySnapshot => {
           const documents = querySnapshot.docs.map(doc => Object.assign(doc.data(), { id: doc.id }))
@@ -79,12 +84,13 @@ export default new Vuex.Store({
     setListModal() {
       this.commit('SET_LIST_MODAL', !this.state.showListModal);
     },
-    fetchUser({ commit }, user) {
+    fetchUser({ commit, dispatch }, user) {
       if (user) {
         commit("SET_USER", {
           displayName: user.displayName,
           email: user.email
         });
+        dispatch("getAllLists");
       } else {
         commit("SET_USER", []);
       }
@@ -96,15 +102,16 @@ export default new Vuex.Store({
         this.commit('UNSELECT_ITEM', id)
       }
     },
-    createList({ commit }, payload) {
+    createList({ commit, dispatch }, payload) {
       const newObj = Object.assign(payload, { items: this.state.selectedItems })
       db.collection('lists')
       .add(newObj)
       .then(res => {
-        this.$router.push({ path: `/lists/${res.id}` })
+        router.push({ path: `/lists/${res.id}` })
         console.log(res.id);
       })
-      setCurrentList(newObj);
+      dispatch('setCurrentList', newObj);
+      commit('ADD_TO_LIST', payload)
     },
     setCurrentList({ commit }, list) {
       this.commit('SET_CURRENT_LIST', list)

@@ -2,7 +2,7 @@
   <div class="item-list">
     <h1>
       <img src="../assets/item.png"/>
-      Liste des meubles
+      {{ title }}
     </h1>
     <div class="actions">
       <div class="input-wrapper">
@@ -51,7 +51,8 @@ export default {
     Item
   },
   data: () => ({
-    search : ''
+    search: '',
+    defaultTitle: 'Liste de meubles'
   }),
   props: ["mode"],
   computed: {
@@ -62,9 +63,12 @@ export default {
       if (this.mode === "list" && this.$store.state.items.length && this.$store.state.currentList) {
         return this.$store.state.items.filter(item => this.currentList.items.includes(item.id)).filter(item => item.name.toLowerCase().includes(this.search.toLowerCase()));
       }
-      if (this.$store.state.items.length) {
+      else if (this.$store.state.items.length) {
         return this.$store.state.items.filter(item => item.name.toLowerCase().includes(this.search.toLowerCase()));
       }
+    },
+    title() {
+      return this.currentList.name ? this.currentList.name : this.defaultTitle;
     }
   },
   methods: {
