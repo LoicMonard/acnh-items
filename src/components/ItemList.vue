@@ -151,6 +151,7 @@ export default {
     .container {
       display: flex;
       flex-wrap: wrap;
+      margin-bottom: 40px;
     }
   }
 }

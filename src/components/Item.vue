@@ -1,8 +1,7 @@
 <template>
   <div 
-    v-if="data.type == 'object'"
-    class="item" 
-    v-bind:class="{ selected: selected }">
+    class="item"
+    v-bind:class="[{ selected: selected }, data.type]">
     <div 
       class="card" 
       v-bind:class="{ selected: selected }"
@@ -67,6 +66,9 @@ export default {
 .item.selected {
   border: 10px green;
   color: green;
+}
+.resource {
+  display: none !important;
 }
 .item {
   margin: 20px 20px 0 0;

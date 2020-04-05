@@ -204,11 +204,15 @@ export default {
       }
     },
     sendContribution() {
-      db.collection('contributions')
-      .add(this.item)
-      .then(res => {
-        this.$toasted.success('Contribution envoyée', { duration: 3000, position: 'bottom-right', fitToScreen: true});
-      })
+      if (!this.item.name) {
+        this.$toasted.error("Veuillez remplir le champ nom de l'objet", { duration: 3000, position: 'bottom-right', fitToScreen: true});
+      } else {
+        db.collection('contributions')
+        .add(this.item)
+        .then(res => {
+          this.$toasted.success('Contribution envoyée', { duration: 3000, position: 'bottom-right', fitToScreen: true});
+        })
+      }
     }
   },
 }
