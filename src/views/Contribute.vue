@@ -137,6 +137,7 @@
 <script>
 import { db } from '../firebase/firebase.js'
 import { auth, authObj } from '../firebase/firebase'
+import Toasted from 'vue-toasted'
 
 export default {
   name: 'contribute',
@@ -204,7 +205,7 @@ export default {
       db.collection('items')
       .add(this.item)
       .then(res => {
-        console.log('ok');
+        this.$toasted.success('Contribution envoyée', { duration: 3000, position: 'bottom-right', fitToScreen: true});
       })
     }
   },
