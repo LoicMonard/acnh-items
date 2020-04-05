@@ -62,7 +62,7 @@ export default {
   color: green;
 }
 .item {
-  margin: 10px 20px 0 0;
+  margin: 20px 20px 0 0;
   display: flex;
   width: 200px;
   height: 200px;
@@ -101,7 +101,7 @@ export default {
     box-sizing: border-box;
     padding: 4px;
     opacity: 0.7;
-    box-shadow: 9px 7px 40px -6px;
+    background-color: #fff;
     .name {
       font-weight: bold;
       left: -10px;

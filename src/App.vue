@@ -43,8 +43,10 @@ export default {
     this.$store.dispatch('getAllLists');
     auth.onAuthStateChanged(function(user) {
       if (user) {
+        console.log(user);
         store.dispatch("fetchUser", user);
       } else {
+        console.log('no user')
         store.dispatch("fetchUser", user);
       }
     });

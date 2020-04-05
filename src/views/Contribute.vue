@@ -126,6 +126,14 @@ export default {
   computed: {
     user() {
       return this.$store.state.user
+    },
+    items() {
+      if (this.$store.state.items.length) {
+        return this.$store.state.items.filter(item => item.name.toLowerCase().includes(this.recipe.name.toLowerCase())).slice(0, 3);
+      }
+    },
+    nameError() {
+      return this.item.name ? "" : "Ce champ est obligatoire";
     }
   },
   methods: {
@@ -142,7 +150,6 @@ export default {
       this.item.recipeItems.splice(index, 1)
     },
     checkUser() {
-      console.log(this.user);
       if (!this.user) {
         const provider = new authObj.GoogleAuthProvider();
         auth
@@ -158,27 +165,13 @@ export default {
       }
     },
     sendContribution() {
-      db.collection('contributions')
+      db.collection('items')
       .add(this.item)
       .then(res => {
         console.log('ok');
       })
     }
   },
-  computed: {
-    items() {
-      if (this.$store.state.items.length) {
-        return this.$store.state.items.filter(item => item.name.toLowerCase().includes(this.recipe.name.toLowerCase())).slice(0, 3);
-      }
-    },
-    nameError() {
-      return this.item.name ? "" : "Ce champ est obligatoire";
-      let array = [{id: 1}, {id: 2}, {id: 3}, {id: 4}, {id: 5}]
-      let array2 = [2,3]
-      const r = array.filter(i => array2.includes(i.id))
-
-    }
-  }
 }
 </script>
 

@@ -125,6 +125,7 @@ export default {
     display: flex;
     .container {
       display: flex;
+      flex-wrap: wrap;
     }
   }
 }
