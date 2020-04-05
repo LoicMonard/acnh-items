@@ -118,9 +118,9 @@ export default new Vuex.Store({
     },
     getCurrentList({ commit }, payload) {
       let that = this;
+      console.log('getCurrentList store');
       db.collection("lists")
         .doc(payload.id)
-        // .orderBy('name')
         .get()
         .then(doc => {
           console.log('Doc loaded');

@@ -2,7 +2,7 @@
   <div class="list-view">
     <div 
       class="lists"
-      v-if="user">
+      v-if="user.email">
       <h3><img src="../assets/item.png">Mes listes</h3>
       <div 
         class="list"
@@ -26,7 +26,6 @@
       </div>
     </div>
     <ItemList 
-      v-if="currentList"
       mode="list"/>
   </div>
 </template>
