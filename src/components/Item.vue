@@ -36,7 +36,9 @@
             <span>{{ data.price }}</span>
           </div>
         </div>
-        <img src="../assets/recipe.png">
+        <img 
+          src="../assets/recipe.png"
+          v-if="hasRecipe()">
       </div>
     </div>
   </div>
@@ -50,6 +52,15 @@ export default {
   }),
   props: [ 'data' ],
   methods: {
+    hasRecipe() {
+      if (this.data.recipeItems) {
+        if (this.data.recipeItems.length) {
+          return true;
+        }
+      } else {
+        return false
+      }
+    },
     selectItem() {
       this.selected = !this.selected;
       this.$store.dispatch('selectItem', this.data.id);
