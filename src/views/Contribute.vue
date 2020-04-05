@@ -189,7 +189,7 @@ export default {
       this.item.recipeItems.splice(index, 1)
     },
     checkUser() {
-      if (!this.user) {
+      if (!this.user.email) {
         const provider = new authObj.GoogleAuthProvider();
         auth
           .signInWithPopup(provider)

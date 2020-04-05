@@ -98,7 +98,7 @@ export default {
     }
   },
   mounted() {
-    if (!this.currentList && this.mode === "list") {
+    if (!this.currentList && this.mode === "list" && this.$route.params.id) {
       this.$store.dispatch('getCurrentList', { id: this.$route.params.id })
     }
   }
