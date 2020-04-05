@@ -215,6 +215,7 @@ export default {
 <style lang="scss" scoped>
 .contribute {
   width: 100%;
+  margin-bottom: 20px;
   text-align: start;
   display: flex;
   flex-direction: column;

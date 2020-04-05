@@ -91,6 +91,7 @@ export default {
         this.$store.dispatch('createList', { name: this.listName, author: this.user, id: 0 })
       } if (param == "add") {
         this.$store.dispatch('addToList', { list: this.selectedList })
+        this.$toasted.success('Item ajouté', { duration: 3000, position: 'bottom-right', fitToScreen: true});
       }
     },
     checkUser() {

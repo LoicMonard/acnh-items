@@ -70,13 +70,23 @@ html, body {
   flex-direction: column;
   align-items: center;
   width: 100%;
+  height: 100vh;
   > img {
     width: 100%;
+    height: 200px;
+    object-fit: cover;
+    margin-top: 64px;
   }
   .wrapper {
     width: 70%;
     display: flex;
   }
+}
+
+@media only screen and (max-width: 1300px)  {
+  #app .wrapper {
+    width: 95%;
+  }  
 }
 
 input[type=text], input[type=email], input[type=password], input[type=number] {

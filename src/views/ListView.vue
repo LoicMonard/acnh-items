@@ -58,6 +58,7 @@ export default {
     pickList(list) {
       this.selectedList = list;
       this.$store.dispatch('setCurrentList', list)
+      this.$router.push({ path: `/lists/${list.id}`})
     }
   }
 }

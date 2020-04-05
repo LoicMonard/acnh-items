@@ -132,13 +132,14 @@ export default new Vuex.Store({
     },
     addToList({ commit }, payload) {
       let that = this;
-      console.log(payload.list.items.concat(that.state.selectedItems))
       db.collection("lists")
         .doc(payload.list.id)
         .update({
           items: payload.list.items.concat(that.state.selectedItems)
         })
         .then(doc => {
+          const index = that.state.lists.indexOf(payload.list);
+          that.state.lists[index].items = payload.list.items.concat(that.state.selectedItems);
           console.log('Update is ok');
         })
     }
