@@ -7,11 +7,13 @@
     <div class="wrapper">
       <router-view/>
     </div>
+    <Footer/>
   </div>
 </template>
 
 <script>
 import Navbar from '@/components/Navbar.vue'
+import Footer from '@/components/Footer.vue'
 import Modal from '@/components/Modal.vue'
 import ListModal from '@/components/ListModal.vue'
 import store from './store/index'
@@ -33,7 +35,8 @@ export default {
   components: {
     Navbar,
     Modal,
-    ListModal
+    ListModal,
+    Footer
   },
   methods: {
   },
@@ -67,16 +70,18 @@ html, body {
   flex-direction: column;
   align-items: center;
   width: 100%;
-  height: 100vh;
   > img {
     width: 100%;
     height: 200px;
     object-fit: cover;
     margin-top: 64px;
   }
-  .wrapper {
+  > .wrapper {
     width: 70%;
+    height: 100%;
+    padding-bottom: 84px;
     display: flex;
+    box-sizing: border-box;
   }
 }
 
