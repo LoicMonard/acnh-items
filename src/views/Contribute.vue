@@ -86,9 +86,9 @@
         v-for="(item, index) in item.recipeItems"
         :key="item.name">
         <div class="wrapper">
-          <span>{{ item.name }}</span>
+          <span>{{ item.name }} </span>
           <span class="quantity">
-            x {{ item.quantity }}
+             <span class="separator">x</span> {{ item.quantity }}
           </span>
         </div>
         <i 
@@ -283,6 +283,9 @@ export default {
       i {
         align-self: flex-end;
         cursor: pointer;
+      }
+      .separator {
+        margin-left: 4px;
       }
     }
   }
