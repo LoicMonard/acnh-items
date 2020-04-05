@@ -8,7 +8,7 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
     items: '',
-    lists: '',
+    lists: [],
     currentItem: '',
     currentList: '',
     showDetailsModal: false,
@@ -21,7 +21,7 @@ export default new Vuex.Store({
       state.items = payload;
     },
     SAVE_LISTS(state, payload) {
-      state.lists = payload;
+      state.lists = state.lists.concat(payload);
     },
     SAVE_CURRENT_ITEM(state, payload) {
       state.currentItem = payload;
@@ -111,7 +111,9 @@ export default new Vuex.Store({
         console.log(res.id);
       })
       dispatch('setCurrentList', newObj);
+      dispatch('setListModal')
       commit('ADD_TO_LIST', payload)
+      
     },
     setCurrentList({ commit }, list) {
       this.commit('SET_CURRENT_LIST', list)

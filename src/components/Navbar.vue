@@ -2,8 +2,17 @@
   <div class="navbar">
     <div class="wrapper">
       <div class="left">
-        <img src="../assets/item.png">
-        <router-link tag="h3" to="">ACNH Items</router-link>
+        <router-link 
+          to="/items"
+          tag="div">
+          <img src="../assets/item.png">
+          <h3>ACNH Items</h3>
+        </router-link>
+        <div @click="checkUser()">
+          <button>
+            Mes listes
+          </button>
+        </div>
       </div>
       <div class="right">
         <button 
@@ -60,7 +69,26 @@ export default {
             path: ""
           });
         });
-    }
+    },
+    goToLists() {
+      this.$router.push({ path: '/lists' });
+    },
+    checkUser() {
+      if (!this.user.email) {
+        const provider = new authObj.GoogleAuthProvider();
+        auth
+          .signInWithPopup(provider)
+          .then(data => {
+            this.goToLists();
+          })
+          .catch(err => {
+            console.error(err.message);
+          });
+      } else {
+        console.log('user in on');
+        this.goToLists();
+      }
+    },
   }
 }
 </script>
@@ -89,6 +117,12 @@ export default {
       button {
         margin: 0 4px;
       }
+    }
+    .left > div {
+      display: flex;
+      align-items: center;
+      margin-right: 4px;
+      cursor: pointer;
     }
     .right {
       .connected {

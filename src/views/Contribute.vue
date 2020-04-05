@@ -13,27 +13,62 @@
       </p>
     </div>
     <label>
-      Nom du meuble
+      Type de l'objet
+    </label>
+    <div class="multiple-input type">
+      <div 
+        class="multiple-input"
+        @click.prevent="item.type = 'object'">
+        <i 
+          class="material-icons"
+          v-if="item.type == 'resource'">
+          radio_button_unchecked
+        </i>
+        <i 
+          class="material-icons"
+          v-else>
+          radio_button_checked
+        </i>
+        <span>Objet</span>
+      </div>
+      <div 
+        class="multiple-input"
+        @click.prevent="item.type = 'resource'">
+        <i 
+          class="material-icons"
+          v-if="item.type == 'object'">
+          radio_button_unchecked
+        </i>
+        <i 
+          class="material-icons"
+          v-else>
+          radio_button_checked
+        </i>
+        <span>Ressource</span>
+      </div>
+    </div>
+    <label>
+      Nom de l'objet
       <span class="colored">{{ nameError }}</span>
     </label>
     <input 
       type="text"
       v-model="item.name">
-    <label>Image du meuble</label>
+    <label>Image de l'objet</label>
     <input 
       type="text"
       placeholder="Url"
       v-model="item.image">
-    <label>Prix du meuble</label>
+    <label>Prix de l'objet</label>
     <input 
       type="number"
       v-model="item.price"
       min="0">
-    <label>Moyen d'obtention du meuble</label>
+    <label>Moyen d'obtention de l'objet</label>
     <input 
       type="text"
       v-model="item.obtention">
-    <label>Taille du meuble</label>
+    <label>Taille de l'objet</label>
     <div class="multiple-input">
       <input 
         type="number"
@@ -45,7 +80,7 @@
         v-model="item.size.width">
     </div>
     <div class="recipe">
-      <label>Recette du meuble</label>
+      <label>Recette de l'objet</label>
       <div 
         class="items-in-recipe"
         v-for="(item, index) in item.recipeItems"
@@ -108,6 +143,7 @@ export default {
   data: () => ({
     toggle: false,
     item: {
+      type: 'object',
       name: '',
       image: '',
       price: null,
@@ -239,6 +275,16 @@ export default {
       i {
         align-self: flex-end;
         cursor: pointer;
+      }
+    }
+  }
+  .type {
+    margin: 0 4px 10px 0;
+    cursor: pointer;
+    > div { 
+      margin-right: 4px;
+      i {
+        margin-right: 4px;
       }
     }
   }

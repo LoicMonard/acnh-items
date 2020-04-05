@@ -4,22 +4,24 @@
       <img :src="item.image"/>
       <div class="details">
         <h3>{{ item.name }}</h3>
-        <div class="recipe">
+        <div 
+          class="recipe"
+          v-if="item.recipeItems">
           <div class="wrapper">
-            <img src="../assets/recipe.png">
             <h4>Recette de craft</h4>
           </div>
           <div
             class="recipe-list"
-            v-for="item in recipe"
-            :key="item.name">
-            <span class="item-name">{{ item.name }}</span>
-            <span class="item-quantity">{{ item.quantity }}</span>
+            v-for="recipe in item.recipeItems"
+            :key="recipe.name">
+            <span class="item-name">{{ recipe.name }}</span>
+            <span class="item-quantity">{{ recipe.quantity }}</span>
           </div>
         </div>
-        <div class="price">
+        <div 
+          class="price"
+          v-if="item.price">
           <div class="wrapper">
-            <img src="../assets/money.png">
             <h4>Prix du catalogue</h4>
           </div>
           <div class="item-price">
@@ -28,12 +30,17 @@
         </div>
         <div class="obtention">
           <div class="wrapper">
-            <img src="../assets/item.png">
             <h4>Moyen d'obtention</h4>
           </div>
           <div class="item-obtention">
-            <span class="item-obtention">{{ item.obtention }} Cadeau</span>
+            <span class="item-obtention">{{ item.obtention }}</span>
           </div>
+        </div>
+        <div class="size">
+          <div class="wrapper">
+            <h4>Taille</h4>
+          </div>
+          <span>{{ item.size.length }} x {{ item.size.width }}</span>
         </div>
       </div>
     </div>
@@ -64,10 +71,13 @@ export default {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-    .wrapper {
+    > .wrapper {
       display: flex;
-      width: 100%;
+      width: 100% !important;
       .details {
+        display: flex;
+        flex-direction: column;
+        flex: 1;
         width: 100%;
         padding: 24px;
         text-align: left;
@@ -89,6 +99,24 @@ export default {
             width: 18px;
             height: 18px;
             margin-right: 4px;
+          }
+        }
+        .recipe {
+          .recipe-list {
+            max-width: 400px;
+            padding: 4px 8px;
+            margin: 2px 0;
+            border-radius: 4px;
+            display: flex;
+            justify-content: space-between;
+            background: #e9e9e9;  
+            color: #000;
+            font-style: italic;
+            border-left: 3px solid rgb(4, 173, 4);
+            i {
+              align-self: flex-end;
+              cursor: pointer;
+            }
           }
         }
       }

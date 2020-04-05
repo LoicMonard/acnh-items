@@ -68,7 +68,11 @@ export default {
       }
     },
     title() {
-      return this.currentList.name ? this.currentList.name : this.defaultTitle;
+      if ( this.mode === "list" && this.currentList.name) {
+        return this.currentList.name;
+      } else {
+        return this.defaultTitle
+      }
     }
   },
   methods: {

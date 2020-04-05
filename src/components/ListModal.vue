@@ -15,12 +15,14 @@
                 v-model="listName">
                 <button 
                   class="filled"
-                  @click="addToList('create')">
+                  @click="checkUser()">
                   Créer
                 </button>
             </div>
-            <h4>Ajouter à une liste existante</h4>
-            <div class="lists">
+            <div 
+              class="lists"
+              v-if="lists">
+              <h4>Ajouter à une liste existante</h4>
               <div 
                 class="list"
                 v-for="list in lists"
@@ -62,6 +64,7 @@
 <script>
 import ItemDetails from '@/views/ItemDetails.vue';
 import { db } from '../firebase/firebase.js'
+import { auth, authObj } from '../firebase/firebase'
 
 export default {
   name: 'modal',
@@ -89,7 +92,23 @@ export default {
       } if (param == "add") {
         this.$store.dispatch('addToList', { list: this.selectedList })
       }
-    }
+    },
+    checkUser() {
+      if (!this.user.email) {
+        const provider = new authObj.GoogleAuthProvider();
+        auth
+          .signInWithPopup(provider)
+          .then(data => {
+            this.addToList('create');
+          })
+          .catch(err => {
+            console.error(err.message);
+          });
+      } else {
+        console.log('user in on');
+        this.addToList('create');
+      }
+    },
   },
   components: {
     ItemDetails
