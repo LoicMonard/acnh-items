@@ -76,7 +76,6 @@ html, body {
   .wrapper {
     width: 70%;
     display: flex;
-    
   }
 }
 

@@ -24,6 +24,14 @@
           Ajouter à une liste
       </button>
     </div>
+    <div class="legend">
+      <img src="../assets/item.png">
+      <label>Objet</label>
+      <img src="../assets/recipe.png">
+      <label>Craftable</label>
+      <img src="../assets/money.png">
+      <label>Prix en clochettes</label>
+    </div>
     <div class="items">
       <transition-group
         name="list" 
@@ -127,6 +135,17 @@ export default {
     }
     button {
       margin-bottom: 10px;
+    }
+  }
+  .legend {
+    display: flex;
+    align-items: center;
+    img {
+      height: 16px;
+      margin-right: 4px;
+    }
+    label {
+      margin-right: 8px;
     }
   }
   .items {

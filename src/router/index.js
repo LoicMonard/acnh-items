@@ -4,6 +4,7 @@ import Home from '../views/Home.vue'
 import ItemDetails from '../views/ItemDetails.vue'
 import ItemList from '../components/ItemList.vue'
 import Contribute from '../views/Contribute.vue'
+import Contributions from '../views/Contributions.vue'
 import ListView from '../views/ListView.vue'
 
 Vue.use(VueRouter)
@@ -42,6 +43,11 @@ const routes = [
     path: '/lists/:id',
     name: 'listsid',
     component: ListView
+  },
+  {
+    path: '/contributions',
+    name: 'contributions',
+    component: Contributions
   }
 ]
 

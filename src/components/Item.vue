@@ -1,5 +1,8 @@
 <template>
-  <div class="item" v-bind:class="{ selected: selected }">
+  <div 
+    v-if="data.type == 'object'"
+    class="item" 
+    v-bind:class="{ selected: selected }">
     <div 
       class="card" 
       v-bind:class="{ selected: selected }"
@@ -26,7 +29,14 @@
       </i>
       <div class="icons">
         <img src="../assets/item.png">
-        <img src="../assets/money.png">
+        <div
+          class="price"
+          v-if="data.price">
+          <img src="../assets/money.png">
+          <div class="price-overlay">
+            <span>{{ data.price }}</span>
+          </div>
+        </div>
         <img src="../assets/recipe.png">
       </div>
     </div>
@@ -91,6 +101,24 @@ export default {
     .left-menu .icons {
       transform: translateX(0px);
       opacity: 1;
+    }
+    .price:hover {
+      .price-overlay > span {
+        opacity: 1;
+      }
+    }
+  }
+  .price {
+    position: relative;
+    .price-overlay > span {
+      position: absolute !important;
+      left: -46px;
+      top: 5px;
+      opacity: 0;
+      padding: 4px;
+      color: #fff;
+      background-color: #000;
+      transition: all .3s ease;;
     }
   }
   .overlay {
