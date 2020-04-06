@@ -102,7 +102,7 @@ export default {
     padding: 12px;
     box-shadow: 5px 5px 20px -4px;
     background-position: center;
-    background-size: 100%;
+    background-size: cover;
     display: flex;
     position: relative;
     overflow: hidden;

@@ -18,10 +18,12 @@
     <div class="multiple-input type">
       <div 
         class="multiple-input"
-        @click.prevent="item.type = 'object'">
+        v-for="type in types"
+        :key="type.name"
+        @click="item.type = type.type">
         <i 
           class="material-icons"
-          v-if="item.type == 'resource'">
+          v-if="item.type !== type.type">
           radio_button_unchecked
         </i>
         <i 
@@ -29,22 +31,7 @@
           v-else>
           radio_button_checked
         </i>
-        <span>Objet</span>
-      </div>
-      <div 
-        class="multiple-input"
-        @click.prevent="item.type = 'resource'">
-        <i 
-          class="material-icons"
-          v-if="item.type == 'object'">
-          radio_button_unchecked
-        </i>
-        <i 
-          class="material-icons"
-          v-else>
-          radio_button_checked
-        </i>
-        <span>Ressource</span>
+        <span>{{ type.name }}</span>
       </div>
     </div>
     <label>
@@ -160,7 +147,18 @@ export default {
     recipe: {
       name: '',
       quantity: 1
-    }
+    },
+    types: [
+      { name: 'Objet', type: 'object' },
+      { name: 'Ressource', type: 'resource' },
+      { name: 'Fossile', type: 'fossil' },
+      { name: 'Outil', type: 'tool' },
+      { name: 'Sol', type: 'floor' },
+      { name: 'Mur', type: 'wall' },
+      { name: 'Clotûre', type: 'fence' },
+      { name: 'Vêtement', type: 'clothing' },
+      { name: 'Consommable', type: 'consumable' }
+    ]
   }),
   computed: {
     user() {
