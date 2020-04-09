@@ -1,7 +1,7 @@
 <template>
   <div 
     class="contributions"
-    v-if="user.email == 'fibredeneige91@gmail.com'">
+    >
     <h2>Contributions</h2>
     <div 
       class="contribution"

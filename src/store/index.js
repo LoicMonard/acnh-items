@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import { db, FieldValue } from '../firebase/firebase'
 import router from '../router/index'
+import axios from 'axios'
 
 Vue.use(Vuex)
 
@@ -53,12 +54,20 @@ export default new Vuex.Store({
     getAllItems() {
       let documents = [];
       let that = this;
-      db.collection("items")
-        .orderBy('name')
-        .get()
-        .then(querySnapshot => {
-          const documents = querySnapshot.docs.map(doc => Object.assign(doc.data(), { id: doc.id } ))
-          that.commit('SAVE_ITEMS', documents);
+      // db.collection("items")
+      //   .orderBy('name')
+      //   .get()
+      //   .then(querySnapshot => {
+      //     const documents = querySnapshot.docs.map(doc => Object.assign(doc.data(), { id: doc.id } ))
+      //     that.commit('SAVE_ITEMS', documents);
+      //   })
+
+      axios.get('https://us-central1-acnh-items.cloudfunctions.net/getAllItems')
+        .then(res => {
+          that.commit('SAVE_ITEMS', res.data.response);
+        })
+        .catch(err => {
+          console.error(err);
         })
     },
     getAllLists() {

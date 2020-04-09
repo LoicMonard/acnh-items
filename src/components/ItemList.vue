@@ -4,6 +4,11 @@
       <img src="../assets/item.png"/>
       {{ title }}
     </h1>
+    <p 
+      class="advertising"
+      v-if="mode !== 'list'">
+      Connectez-vous pour partager vos listes avec d'autres joueurs
+    </p>
     <div class="actions">
       <div class="input-wrapper">
         <label>Rechercher par nom</label>
@@ -110,6 +115,17 @@ export default {
   width: 100%;
   display: flex;
   flex-direction: column;
+  .advertising {
+    background-color: #f5f5f5;
+    padding: 10px 18px;
+    margin: 10px 0;
+    border-radius: 4px;
+    margin: 20px 0;
+    text-align: left;
+    box-sizing: border-box;
+    border-left: 3px solid rgb(4, 173, 4);
+    color: rgb(44, 44, 44);
+  }
   input {
     width: 200px;
   }

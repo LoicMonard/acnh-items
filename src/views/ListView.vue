@@ -4,6 +4,7 @@
       class="lists"
       v-if="user.email">
       <h3><img src="../assets/item.png">Mes listes</h3>
+      <p class="advertising">Selectionnez une liste et copiez l'url pour partager votre liste à un autre joueur</p>
       <div 
         class="list"
         v-for="list in lists"
@@ -76,6 +77,17 @@ export default {
     }
   }
   .lists {
+    .advertising {
+      background-color: #f5f5f5;
+      padding: 10px 18px;
+      margin: 10px 0;
+      border-radius: 4px;
+      margin: 20px 0;
+      text-align: left;
+      box-sizing: border-box;
+      border-left: 3px solid rgb(4, 173, 4);
+      color: rgb(44, 44, 44);
+    }
     .list {
       display: flex;
       align-items: center;
