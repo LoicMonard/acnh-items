@@ -12,6 +12,32 @@
         avant d'être publiée. Par respect de la communauté, nous vous demandons d'être le plus précis sur les informations que vous publiez.
       </p>
     </div>
+    <div class="drag-zone">
+      <input 
+      ref="input"
+      type="file"
+      accept="image/*"
+      @change="setImage">
+      <div>
+        <div class="img-cropper">
+          <vue-cropper
+          v-if="imgSrc"
+            ref="cropper"
+            :aspect-ratio="1/1"
+            :src="imgSrc"
+            preview=".preview"
+          />
+        </div>
+        <button 
+          @click="cropImage()"
+          class="filled">
+          Uploader l'image cropée
+        </button>
+        <button class="filled">
+          Analyser
+        </button>
+      </div>
+    </div>
     <label>
       Type de l'objet
     </label>
@@ -46,6 +72,10 @@
       type="text"
       placeholder="Url"
       v-model="item.image">
+    <img 
+      class="preview"
+      v-if="item.image"
+      :src="item.image">
     <label>Prix de l'objet</label>
     <input 
       type="number"
@@ -126,12 +156,17 @@
 <script>
 import { db } from '../firebase/firebase.js'
 import { auth, authObj } from '../firebase/firebase'
+import axios from 'axios'
+import VueCropper from 'vue-cropperjs';
 import Toasted from 'vue-toasted'
+import 'cropperjs/dist/cropper.css';
 
 export default {
   name: 'contribute',
   data: () => ({
     toggle: false,
+    imgSrc: '',
+    croppedImgSrc: '',
     item: {
       type: 'object',
       name: '',
@@ -160,6 +195,9 @@ export default {
       { name: 'Consommable', type: 'consumable' }
     ]
   }),
+  components: {
+    VueCropper
+  },
   computed: {
     user() {
       return this.$store.state.user
@@ -211,6 +249,49 @@ export default {
           this.$toasted.success('Contribution envoyée', { duration: 3000, position: 'bottom-right', fitToScreen: true});
         })
       }
+    },
+    setImage(e) {
+      const file = e.target.files[0];
+
+      if (file.type.indexOf('image/') === -1) {
+        alert('Please select an image file');
+        return;
+      }
+
+      if (typeof FileReader === 'function') {
+        const reader = new FileReader();
+
+        reader.onload = (event) => {
+          this.imgSrc = event.target.result;
+          // rebuild cropperjs with the updated source
+          this.$refs.cropper.replace(event.target.result);
+        };
+
+        reader.readAsDataURL(file);
+      } else {
+        alert('Sorry, FileReader API not supported');
+      }
+    },
+    cropImage() {
+      // get image data for post processing, e.g. upload or setting image src
+      const dataUrl = this.$refs.cropper.getCroppedCanvas().toDataURL();
+      this.uploadImage(dataUrl);
+    },
+    uploadImage(data) {
+      let that = this;
+      axios.post('https://api.imgur.com/3/image', 
+      {
+        image: data.replace("data:image/png;base64,", ""),
+        type: 'base64'
+      },
+      { headers: { Authorization: "Client-ID 3945587cfaf0961"}} )
+      .then(function (response) {
+        console.log(response.data.data.link);
+        that.item.image = response.data.data.link;
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
     }
   },
 }
@@ -222,6 +303,18 @@ export default {
   text-align: start;
   display: flex;
   flex-direction: column;
+  .drag-zone {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    margin: 10px 0;
+    img {
+    }
+  }
+  .preview {
+    max-width: 200px;
+    height: auto;
+  }
   .advertising {
     box-sizing: border-box;
     color: #fff;
