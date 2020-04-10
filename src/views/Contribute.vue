@@ -13,6 +13,8 @@
       </p>
     </div>
     <div class="drag-zone">
+      <label>Reconnaître un meuble à l'aide d'une image</label>
+      <div class="warning">L'analyse du texte de l'image peut s'avérer aléatoire et demande une vérification de votre part.</div>
       <input 
       ref="input"
       type="file"
@@ -30,13 +32,14 @@
             <button 
               @click="cropImage()"
               class="filled">
-              Uploader l'image cropée
+              Redimensionner l'image
             </button>
             <button 
               @click="recognizeMultiple()"
               class="filled">
               Analyser
             </button>
+            <ClipLoader :loading="loading"></ClipLoader>
           </div>
         </div>
       </div>
@@ -164,11 +167,13 @@ import VueCropper from 'vue-cropperjs';
 import { createWorker, createScheduler, PSM, OEM } from 'tesseract.js';
 import Toasted from 'vue-toasted'
 import 'cropperjs/dist/cropper.css';
+import ClipLoader from 'vue-spinner/src/ClipLoader.vue'
 
 export default {
   name: 'contribute',
   data: () => ({
     toggle: false,
+    loading: false,
     imgSrc: '',
     croppedImgSrc: '',
     item: {
@@ -200,7 +205,8 @@ export default {
     ]
   }),
   components: {
-    VueCropper
+    VueCropper,
+    ClipLoader
   },
   computed: {
     user() {
@@ -298,6 +304,7 @@ export default {
       });
     },
     async recognizeMultiple() {
+      this.loading = !this.loading;
       const img = document.querySelector('.cropper-hidden');
       const scheduler = createScheduler();
       const worker1 = createWorker();
@@ -329,6 +336,7 @@ export default {
           this.item.size.width = sizeSubstring.substring(sizeSubstring.indexOf('x') + 1, sizeSubstring.length)
         }
         if(i === 1) {
+          this.item.recipeItems = [];
           results[i].data.lines.forEach(elem => {
             if(elem.text.match(/^([a-zA-Z]{3})/)) {
               this.recipe.name = elem.text.replace(/[^a-zA-Z-éàêèÉ ]/g, '')
@@ -339,6 +347,7 @@ export default {
           })
         }
       }
+      this.loading = !this.loading;
     }
   },
 }
@@ -355,6 +364,16 @@ export default {
     flex-direction: column;
     width: 100%;
     margin: 10px 0;
+    .warning {
+      background-color: #eeeeee;
+      padding: 6px 10px;
+      font-size: 14px;
+      border-radius: 4px;
+      margin: 4px 0;
+      text-align: left;
+      box-sizing: border-box;
+      border-left: 3px solid rgb(233, 212, 24);
+    }
     .multiple-input {
       margin-top: 4px;
     }
