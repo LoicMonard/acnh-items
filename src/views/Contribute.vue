@@ -339,7 +339,7 @@ export default {
           this.item.recipeItems = [];
           results[i].data.lines.forEach(elem => {
             if(elem.text.match(/^([a-zA-Z]{3})/)) {
-              this.recipe.name = elem.text.replace(/[^a-zA-Z-éàêèÉ ]/g, '')
+              this.recipe.name = elem.text.replace(/[^a-zA-Z-éàêèÉ ]/g, '').replace(/[@_ $0-9A-Z-]+$/, "")
               const recipeQuantity = elem.text.replace(/[^\/0-9]/g, "")
               this.recipe.quantity = recipeQuantity.substring(recipeQuantity.indexOf('/') + 1, recipeQuantity.length);
               this.addToRecipe();
@@ -380,7 +380,7 @@ export default {
   }
   .preview {
     max-width: 200px;
-    height: auto;
+    height: 200px;
   }
   .advertising {
     box-sizing: border-box;
