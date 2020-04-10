@@ -19,23 +19,26 @@
       accept="image/*"
       @change="setImage">
       <div>
-        <div class="img-cropper">
+        <div v-if="imgSrc">
           <vue-cropper
-          v-if="imgSrc"
             ref="cropper"
             :aspect-ratio="1/1"
             :src="imgSrc"
             preview=".preview"
           />
+          <div class="multiple-input">
+            <button 
+              @click="cropImage()"
+              class="filled">
+              Uploader l'image cropée
+            </button>
+            <button 
+              @click="recognizeMultiple()"
+              class="filled">
+              Analyser
+            </button>
+          </div>
         </div>
-        <button 
-          @click="cropImage()"
-          class="filled">
-          Uploader l'image cropée
-        </button>
-        <button class="filled">
-          Analyser
-        </button>
       </div>
     </div>
     <label>
@@ -103,9 +106,9 @@
         v-for="(item, index) in item.recipeItems"
         :key="item.name">
         <div class="wrapper">
-          <span>{{ item.name }} </span>
+          <span><input type="text" v-model="item.name"></span>
           <span class="quantity">
-             <span class="separator">x</span> {{ item.quantity }}
+             <span class="separator">x</span><input type="number" v-model="item.quantity" min="1">
           </span>
         </div>
         <i 
@@ -158,6 +161,7 @@ import { db } from '../firebase/firebase.js'
 import { auth, authObj } from '../firebase/firebase'
 import axios from 'axios'
 import VueCropper from 'vue-cropperjs';
+import { createWorker, createScheduler, PSM, OEM } from 'tesseract.js';
 import Toasted from 'vue-toasted'
 import 'cropperjs/dist/cropper.css';
 
@@ -177,7 +181,7 @@ export default {
         length: null,
         width: null
       },
-      recipeItems: []
+      recipeItems: [],
     },
     recipe: {
       name: '',
@@ -292,6 +296,49 @@ export default {
       .catch(function (error) {
         console.log(error);
       });
+    },
+    async recognizeMultiple() {
+      const img = document.querySelector('.cropper-hidden');
+      const scheduler = createScheduler();
+      const worker1 = createWorker();
+      const worker2 = createWorker();
+      const name = { left: 130, top: 68, width: 450, height: 101 };
+      const recipe = { left: 736, top: 144, width: 1000, height: 432 };
+      const rectangles = [name, recipe]
+      await worker1.load();
+      await worker2.load();
+      await worker1.loadLanguage('eng+fra');
+      await worker2.loadLanguage('eng+fra');
+      await worker1.initialize('eng+fra');
+      await worker2.initialize('eng+fra');
+      scheduler.addWorker(worker1);
+      scheduler.addWorker(worker2);
+      const results = await Promise.all(rectangles.map((rectangle) => (
+        scheduler.addJob('recognize', img, { rectangle })
+      )));
+      await scheduler.terminate();
+      this.cleanResults(results);
+    },
+    cleanResults(results) {
+      for(let i = 0; i < results.length; i++) {
+        if (i === 0) {
+          this.item.name = results[i].data.lines[0].text.replace(/[^a-zA-Z-éàêèÉ ]/g, '')
+          const sizeSubstring = results[i].data.lines[1].text.replace(/[^x0-9]/g, "");
+
+          this.item.size.length = sizeSubstring.substring(0, sizeSubstring.indexOf('x'))
+          this.item.size.width = sizeSubstring.substring(sizeSubstring.indexOf('x') + 1, sizeSubstring.length)
+        }
+        if(i === 1) {
+          results[i].data.lines.forEach(elem => {
+            if(elem.text.match(/^([a-zA-Z]{3})/)) {
+              this.recipe.name = elem.text.replace(/[^a-zA-Z-éàêèÉ ]/g, '')
+              const recipeQuantity = elem.text.replace(/[^\/0-9]/g, "")
+              this.recipe.quantity = recipeQuantity.substring(recipeQuantity.indexOf('/') + 1, recipeQuantity.length);
+              this.addToRecipe();
+            }
+          })
+        }
+      }
     }
   },
 }
@@ -308,7 +355,8 @@ export default {
     flex-direction: column;
     width: 100%;
     margin: 10px 0;
-    img {
+    .multiple-input {
+      margin-top: 4px;
     }
   }
   .preview {
@@ -361,7 +409,7 @@ export default {
       padding: 10px 0 !important;
     }
     .items-in-recipe {
-      max-width: 400px;
+      max-width: 600px;
       padding: 4px 8px;
       margin: 6px 0;
       border-radius: 4px;
@@ -376,7 +424,17 @@ export default {
         cursor: pointer;
       }
       .separator {
-        margin-left: 4px;
+        margin: 0 4px;
+      }
+      input {
+        height: 20px;
+        margin: 0;
+        padding: 4px;
+        background-color:#202020;
+        color: #fff;
+      }
+      input[type=number] {
+        width: 40px;
       }
     }
   }

@@ -9,7 +9,7 @@ Vue.use(Toasted)
 Vue.use(firestorePlugin)
 Vue.config.productionTip = false
 
-new Vue({
+let vm = new Vue({
   router,
   store,
   render: h => h(App)
