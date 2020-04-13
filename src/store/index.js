@@ -15,6 +15,7 @@ export default new Vuex.Store({
     showDetailsModal: false,
     showListModal: false,
     showCreateListModal: false,
+    showDeleteListModal: false,
     user: [],
     selectedItems: []
   },
@@ -37,6 +38,9 @@ export default new Vuex.Store({
     SET_CREATE_LIST_MODAL(state, payload) {
       state.showCreateListModal = payload;
     },
+    SET_DELETE_LIST_MODAL(state, payload) {
+      state.showDeleteListModal = payload;
+    },
     SET_USER(state, data) {
       state.user = data;
     },
@@ -52,6 +56,10 @@ export default new Vuex.Store({
     },
     ADD_TO_LIST(state, payload) {
       state.lists.push(payload);
+    },
+    DELETE_LIST(state) {
+      const index = state.lists.indexOf(state.currentList);
+      state.lists.splice(index, 1);
     }
   },
   actions: {
@@ -99,6 +107,9 @@ export default new Vuex.Store({
     setCreateListModal() {
       this.commit('SET_CREATE_LIST_MODAL', !this.state.showCreateListModal);
     },
+    setDeleteListModal() {
+      this.commit('SET_DELETE_LIST_MODAL', !this.state.showDeleteListModal);
+    },
     fetchUser({ commit, dispatch }, user) {
       if (user) {
         commit("SET_USER", {
@@ -125,6 +136,17 @@ export default new Vuex.Store({
       })
       dispatch('setCurrentList', newObj);
       commit('ADD_TO_LIST', payload)
+    },
+    deleteList({ commit, dispatch }, payload) {
+      console.log(this.state.currentList);
+      if (this.state.user.email == this.state.currentList.author.email) {
+        db.collection('lists')
+          .doc(this.state.currentList.id)
+          .delete()
+          .then(doc => {
+            this.commit('DELETE_LIST')
+          })
+      }
     },
     setCurrentList({ commit }, list) {
       this.commit('SET_CURRENT_LIST', list)

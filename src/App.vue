@@ -5,6 +5,7 @@
     <Modal v-if="showDetailsModal"/>
     <ListModal v-if="showListModal"/>
     <CreateListModal v-if="showCreateListModal"/>
+    <DeleteListModal v-if="showDeleteListModal"/>
     <div class="wrapper">
       <router-view/>
     </div>
@@ -18,6 +19,7 @@ import Footer from '@/components/Footer.vue'
 import Modal from '@/components/Modal.vue'
 import ListModal from '@/components/ListModal.vue'
 import CreateListModal from '@/components/CreateListModal.vue'
+import DeleteListModal from '@/components/DeleteListModal.vue'
 import store from './store/index'
 import { mapGetters } from 'vuex'
 import { auth } from './firebase/firebase'
@@ -35,6 +37,9 @@ export default {
     },
     showCreateListModal() {
       return this.$store.state.showCreateListModal;
+    },
+    showDeleteListModal() {
+      return this.$store.state.showDeleteListModal;
     }
   },
   components: {
@@ -42,6 +47,7 @@ export default {
     Modal,
     ListModal,
     CreateListModal,
+    DeleteListModal,
     Footer
   },
   methods: {

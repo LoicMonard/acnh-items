@@ -89,6 +89,14 @@ export default {
   .dropdown-header {
     display: flex;
     font-weight: 500;
+    padding: 6px 6px 6px 14px;
+    border-radius: 4px;
+    user-select: none;
+    background-color: rgb(241, 250, 241);
+    transition: all .3s ease;
+    &:hover {
+      background-color: rgb(227, 239, 231);
+    }
     cursor: pointer;
     i {
       transform: rotate(-90deg);

@@ -12,15 +12,17 @@
         @click="copyToClipboard()">
         <input
           id="copyUrl"
-          type="text" 
-          v-model="sharingUrl">
+          type="text"
+          disabled
+          v-model="sharingUrl"/>
       </div>
+      <button 
+        class="filled red"
+        v-if="isOwner === true"
+        @click="showDeleteModalList()">
+        Supprimer la liste
+      </button>
     </div>
-    <p 
-      class="advertising"
-      v-if="mode !== 'list'">
-      Connectez-vous pour partager vos listes avec d'autres joueurs
-    </p>
     <div class="actions">
       <div class="input-wrapper">
         <label>Rechercher par nom</label>
@@ -83,6 +85,9 @@ export default {
   }),
   props: ["mode"],
   computed: {
+    user() {
+      return this.$store.state.user;
+    },
     currentList() {
       return this.$store.state.currentList;
     },
@@ -103,6 +108,15 @@ export default {
     },
     sharingUrl() {
       return this.$route.fullPath;
+    },
+    isOwner() {
+      if (this.user.email) {
+        if (this.currentList) {
+          if (this.mode === 'list' && this.currentList.author.email == this.user.email) {
+            return true;
+          }
+        }
+      }
     }
   },
   methods: {
@@ -121,7 +135,10 @@ export default {
       input.select();
       input.setSelectionRange(0, 99999);
       document.execCommand("copy");
-      alert("Copied the text: " + input.value)
+      this.$toasted.success('Lien copié dans le presse-papier.', { duration: 3000, position: 'bottom-right', fitToScreen: true});
+    },
+    showDeleteModalList() {
+      this.$store.dispatch('setDeleteListModal')
     }
   },
   mounted() {
@@ -151,25 +168,24 @@ export default {
       border-radius: 4px;
       background-color: rgb(241, 241, 241);
       width: max-content;
+      cursor: pointer;
       #copyUrl {
         font-size: 14px;
         font-weight: bold;
         border: none;
         margin: 0;
         padding: 0;
+        cursor: pointer;
       }
     }
-  }
-  .advertising {
-    background-color: #f5f5f5;
-    padding: 10px 18px;
-    margin: 10px 0;
-    border-radius: 4px;
-    margin: 20px 0;
-    text-align: left;
-    box-sizing: border-box;
-    border-left: 3px solid rgb(4, 173, 4);
-    color: rgb(44, 44, 44);
+    .red {
+      background-color: rgb(255, 109, 109);
+      border: 1px solid rgb(255, 109, 109);
+      &:hover {
+        background-color: #fff;
+        color: rgb(255, 109, 109) !important;
+      }
+    }
   }
   input {
     width: 200px;
