@@ -3,28 +3,7 @@
     <div 
       class="lists"
       v-if="user.email">
-      <h3><img src="../assets/item.png">Mes listes</h3>
       <p class="advertising">Selectionnez une liste et copiez l'url pour partager votre liste à un autre joueur</p>
-      <div 
-        class="list"
-        v-for="list in lists"
-        :key="list.name">
-        <i 
-          class="material-icons"
-          @click.prevent="pickList(list)"
-          v-if="list.name == selectedList.name">
-          radio_button_checked
-        </i>
-        <i 
-          class="material-icons"
-          @click.prevent="pickList(list)"
-          v-else>
-          radio_button_unchecked
-        </i>
-        <span class="list-name">
-          {{ list.name }}
-        </span>
-      </div>
     </div>
     <ItemList 
       mode="list"/>
@@ -55,13 +34,6 @@ export default {
       return this.$store.state.currentList;
     },
   },
-  methods: {
-    pickList(list) {
-      this.selectedList = list;
-      this.$store.dispatch('setCurrentList', list)
-      this.$router.push({ path: `/lists/${list.id}`})
-    }
-  }
 }
 </script>
 
@@ -77,6 +49,7 @@ export default {
     }
   }
   .lists {
+    display: flex;
     .advertising {
       background-color: #f5f5f5;
       padding: 10px 18px;

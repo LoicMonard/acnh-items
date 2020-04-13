@@ -8,10 +8,8 @@
           <img src="../assets/item.png">
           <h3>ACNH Items</h3>
         </router-link>
-        <div @click="checkUser()">
-          <button>
-            Mes listes
-          </button>
+        <div>
+          <Dropdown v-bind:data="lists"/>
         </div>
       </div>
       <div class="right">
@@ -39,14 +37,21 @@
 
 <script>
 import { auth, authObj } from '../firebase/firebase'
+import Dropdown from '@/components/Dropdown.vue'
 
 export default {
   name: 'navbar',
   props: {
   },
+  components: {
+    Dropdown
+  },
   computed: {
     user() {
       return this.$store.state.user
+    },
+    lists() {
+      return this.$store.state.lists
     }
   },
   methods: {
@@ -69,24 +74,6 @@ export default {
             path: ""
           });
         });
-    },
-    goToLists() {
-      this.$router.push({ path: '/lists' });
-    },
-    checkUser() {
-      if (!this.user.email) {
-        const provider = new authObj.GoogleAuthProvider();
-        auth
-          .signInWithPopup(provider)
-          .then(data => {
-            this.goToLists();
-          })
-          .catch(err => {
-            console.error(err.message);
-          });
-      } else {
-        this.goToLists();
-      }
     },
   }
 }

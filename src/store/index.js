@@ -14,6 +14,7 @@ export default new Vuex.Store({
     currentList: '',
     showDetailsModal: false,
     showListModal: false,
+    showCreateListModal: false,
     user: [],
     selectedItems: []
   },
@@ -32,6 +33,9 @@ export default new Vuex.Store({
     },
     SET_LIST_MODAL(state, payload) {
       state.showListModal = payload;
+    },
+    SET_CREATE_LIST_MODAL(state, payload) {
+      state.showCreateListModal = payload;
     },
     SET_USER(state, data) {
       state.user = data;
@@ -92,6 +96,9 @@ export default new Vuex.Store({
     setListModal() {
       this.commit('SET_LIST_MODAL', !this.state.showListModal);
     },
+    setCreateListModal() {
+      this.commit('SET_CREATE_LIST_MODAL', !this.state.showCreateListModal);
+    },
     fetchUser({ commit, dispatch }, user) {
       if (user) {
         commit("SET_USER", {
@@ -115,12 +122,9 @@ export default new Vuex.Store({
       db.collection('lists')
       .add(newObj)
       .then(res => {
-        router.push({ path: `/lists/${res.id}` })
       })
       dispatch('setCurrentList', newObj);
-      dispatch('setListModal')
       commit('ADD_TO_LIST', payload)
-      
     },
     setCurrentList({ commit }, list) {
       this.commit('SET_CURRENT_LIST', list)

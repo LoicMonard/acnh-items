@@ -4,45 +4,14 @@
       <div class="modal-wrapper">
         <div class="modal-container">
           <div class="modal-header">
-            <h3><img src="../assets/item.png">Ajouter à une liste</h3>
+            <h3><img src="../assets/item.png">Créer une nouvelle liste</h3>
           </div>
           <div class="modal-body">
-            <h4>Ajouter à une nouvelle liste</h4>
             <label>Nom de la liste</label>
             <div class="multiple-input">
               <input
                 type="text"
                 v-model="listName">
-                <button 
-                  class="filled"
-                  @click="checkUser()">
-                  Créer
-                </button>
-            </div>
-            <div 
-              class="lists"
-              v-if="lists">
-              <h4>Ajouter à une liste existante</h4>
-              <div 
-                class="list"
-                v-for="list in lists"
-                :key="list.name">
-                <i 
-                  class="material-icons"
-                  @click.prevent="selectedList = list"
-                  v-if="list.name == selectedList.name">
-                  radio_button_checked
-                </i>
-                <i 
-                  class="material-icons"
-                  @click.prevent="selectedList = list"
-                  v-else>
-                  radio_button_unchecked
-                </i>
-                <span class="list-name">
-                  {{ list.name }}
-                </span>
-              </div>
             </div>
           </div>
           <div class="modal-footer">
@@ -53,8 +22,8 @@
             </button>
             <button 
               class="filled"
-              @click="addToList('add')">
-              Ajouter
+              @click="checkUser()">
+              Créer
             </button>
           </div>
         </div>
@@ -71,30 +40,23 @@ import { auth, authObj } from '../firebase/firebase'
 export default {
   name: 'modal',
   data: () => ({
-    selectedList: { name: 'liste 1' },
     listName: ''
   }),
   computed: {
-    lists() {
-      if (this.$store.state.lists.length) {
-        return this.$store.state.lists;
-      }
-    },
     user() {
       return this.$store.state.user;
     },
   },
   methods: {
     closeModal() {
-      this.$store.dispatch('setListModal');
+      this.$store.dispatch('setCreateListModal');
     },
-    addToList(param) {
-      if (param == "create") {
-        this.$store.dispatch('createList', { name: this.listName, author: this.user, id: 0 })
-      } if (param == "add") {
-        this.$store.dispatch('addToList', { list: this.selectedList })
-        this.$toasted.success('Item ajouté', { duration: 3000, position: 'bottom-right', fitToScreen: true});
-      }
+    createList() {
+      this.$store.dispatch('createList', { name: this.listName, author: this.user, id: 0 }).then(res => {
+        this.$toasted.success('Liste créée', { duration: 3000, position: 'bottom-right', fitToScreen: true});
+      }, error => {
+
+      })
     },
     checkUser() {
       if (!this.user.email) {
@@ -102,15 +64,16 @@ export default {
         auth
           .signInWithPopup(provider)
           .then(data => {
-            this.addToList('create');
-            this.$store.dispatch('setListModal');
+            this.createList();
+            this.$store.dispatch('setCreateListModal')
+
           })
           .catch(err => {
             console.error(err.message);
           });
       } else {
-        this.addToList('create');
-        this.$store.dispatch('setListModal');
+        this.createList();
+        this.$store.dispatch('setCreateListModal')
       }
     },
   },

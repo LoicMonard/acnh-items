@@ -19,7 +19,7 @@
 <style lang="scss" scoped>
 .footer {
   position: fixed;
-  z-index: 1;
+  z-index: 9;
   bottom: 0;
   width: 100%;
   height: 60px;

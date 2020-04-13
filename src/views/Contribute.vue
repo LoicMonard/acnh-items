@@ -127,7 +127,8 @@
             placeholder="Nom de l'ingrédient"
             @blur="toggle = false" 
             @focus="toggle = true"
-            v-model="recipe.name">
+            v-model="recipe.name"
+            autocomplete="news">
           <div class="results" v-if="toggle">
             <div class="result"
               v-for="item in items"
@@ -151,11 +152,16 @@
         </button>
       </div>
     </div>
-    <button 
-      @click="checkUser()"
-      class="submit">
-      Ajouter ma contribution
-    </button>
+    <div class="multiple-input">
+      <button @click="resetForm()">
+        Réinitialiser le formulaire
+      </button>
+      <button 
+        @click="checkUser()"
+        class="submit">
+        Ajouter ma contribution
+      </button>
+    </div>
   </div>
 </template>
 
@@ -214,7 +220,8 @@ export default {
     },
     items() {
       if (this.$store.state.items.length) {
-        return this.$store.state.items.filter(item => item.name.toLowerCase().includes(this.recipe.name.toLowerCase())).slice(0, 3);
+        const subset = this.$store.state.items.filter(item => item.type == "resource");
+        return subset.filter(item => item.name.toLowerCase().includes(this.recipe.name.toLowerCase()));
       }
     },
     nameError() {
@@ -343,11 +350,23 @@ export default {
               const recipeQuantity = elem.text.replace(/[^\/0-9]/g, "")
               this.recipe.quantity = recipeQuantity.substring(recipeQuantity.indexOf('/') + 1, recipeQuantity.length);
               this.addToRecipe();
+              this.recipe.name = "",
+              this.recipe.quantity = 1;
             }
           })
         }
       }
       this.loading = !this.loading;
+    },
+    resetForm() {
+      this.item.name = '';
+      this.item.image = '';
+      this.item.price = null;
+      this.item.obtention = '';
+      this.item.size = { length: null, width: null};
+      this.item.recipeItems = [];
+      this.recipe.name = "",
+      this.recipe.quantity = 1;
     }
   },
 }
@@ -408,8 +427,11 @@ export default {
       position: relative;
       .results {
         position: absolute;
+        z-index: 10;
         top: 40px;
         width: 100%;
+        max-height: 300px;
+        overflow: auto;
         background: #fff;  
         box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
         .result {
@@ -467,8 +489,12 @@ export default {
       }
     }
   }
-  .submit {
-    margin-top: 20px;
+  > .multiple-input {
+    .submit {
+      flex: 1;
+    }
+    .reset {
+    }
   }
 }
 </style>

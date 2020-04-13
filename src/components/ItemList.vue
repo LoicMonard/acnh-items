@@ -1,9 +1,21 @@
 <template>
   <div class="item-list">
-    <h1>
-      <img src="../assets/item.png"/>
-      {{ title }}
-    </h1>
+    <div class="list-header">
+      <h1>
+        <img src="../assets/item.png"/>
+        {{ title }}
+      </h1>
+      <div class="separator">&nbsp;</div>
+      <div 
+        class="share"
+        v-if="mode === 'list'"
+        @click="copyToClipboard()">
+        <input
+          id="copyUrl"
+          type="text" 
+          v-model="sharingUrl">
+      </div>
+    </div>
     <p 
       class="advertising"
       v-if="mode !== 'list'">
@@ -45,7 +57,7 @@
         <Item 
           class="item"
           v-for="item in items"
-          :key="item.name"
+          :key="item.id"
           v-bind:data="item"/>
       </transition-group>
     </div>
@@ -54,6 +66,7 @@
 
 <script>
 import Item from '@/components/Item.vue'
+import Dropdown from '@/components/Dropdown.vue'
 import { db } from '../firebase/firebase.js'
 import router from 'vue-router'
 import { mapGetters } from 'vuex'
@@ -61,7 +74,8 @@ import { mapGetters } from 'vuex'
 export default {
   name: 'items',
   components: {
-    Item
+    Item,
+    Dropdown
   },
   data: () => ({
     search: '',
@@ -86,20 +100,28 @@ export default {
       } else {
         return this.defaultTitle
       }
+    },
+    sharingUrl() {
+      return this.$route.fullPath;
     }
   },
   methods: {
     getItemDetails(item) {
       this.$store.dispatch('getItemById', { id: item.id });
       this.$store.dispatch('setDetailsModal');
-      // const itemId = this.items.find(x => x.name === 'Bambou').id;
-      // this.$router.push({ path: `/details/${itemId}`, params: item})
     },
     contribute() {
       this.$router.push('/contribute');
     },
     addToList() {
       this.$store.dispatch('setListModal');
+    },
+    copyToClipboard() {
+      const input = document.querySelector('#copyUrl');
+      input.select();
+      input.setSelectionRange(0, 99999);
+      document.execCommand("copy");
+      alert("Copied the text: " + input.value)
     }
   },
   mounted() {
@@ -115,6 +137,29 @@ export default {
   width: 100%;
   display: flex;
   flex-direction: column;
+  .list-header {
+    display: flex;
+    align-items: center;
+    .separator {
+      margin: 0 10px;
+      border-left: 1px solid rgb(201, 201, 201);
+      height: 30px;
+    }
+    .share {
+      margin: 0 4px;
+      padding: 10px;
+      border-radius: 4px;
+      background-color: rgb(241, 241, 241);
+      width: max-content;
+      #copyUrl {
+        font-size: 14px;
+        font-weight: bold;
+        border: none;
+        margin: 0;
+        padding: 0;
+      }
+    }
+  }
   .advertising {
     background-color: #f5f5f5;
     padding: 10px 18px;

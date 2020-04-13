@@ -74,6 +74,7 @@ export default {
     let documents = [];
     let that = this;
     db.collection("contributions")
+      .orderBy('name')
       .get()
       .then(querySnapshot => {
         const documents = querySnapshot.docs.map(doc => Object.assign(doc.data(), { id: doc.id } ))
