@@ -369,6 +369,9 @@ export default {
       this.recipe.quantity = 1;
     }
   },
+  mounted() {
+    this.$refs.cropper.move(366, 366);
+  }
 }
 </script>
 
@@ -496,5 +499,10 @@ export default {
     .reset {
     }
   }
+}
+.cropper-crop-box {
+  width: 366.55px !important;
+  height: 366.55px !important;
+  transform: translateX(123.225px) translateY(209.725px) !important;
 }
 </style>

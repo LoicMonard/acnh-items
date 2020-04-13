@@ -11,6 +11,12 @@
         <div>
           <Dropdown v-bind:data="lists"/>
         </div>
+        <button 
+          class="filled"
+          @click="contribute()"
+          >
+          Contribuer
+        </button>
       </div>
       <div class="right">
         <button 
@@ -75,6 +81,9 @@ export default {
           });
         });
     },
+    contribute() {
+      this.$router.push('/contribute');
+    },
   }
 }
 </script>
@@ -103,6 +112,9 @@ export default {
       }
       button {
         margin: 0 4px;
+        padding: 4px 16px !important;
+        height: 33px;
+        font-size: 14px;
       }
     }
     .left > div {

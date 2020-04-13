@@ -13,7 +13,6 @@
         <input
           id="copyUrl"
           type="text"
-          disabled
           v-model="sharingUrl"/>
       </div>
       <button 
@@ -30,12 +29,6 @@
           type="text" 
           v-model="search"/>
       </div>
-      <button 
-        class="filled"
-        @click="contribute()"
-        >
-        Contribuer
-      </button>
       <button 
         class="filled"
         @click="addToList()"
@@ -107,7 +100,7 @@ export default {
       }
     },
     sharingUrl() {
-      return this.$route.fullPath;
+      return `acnh-items.web.app${this.$route.fullPath}`;
     },
     isOwner() {
       if (this.user.email) {
@@ -123,9 +116,6 @@ export default {
     getItemDetails(item) {
       this.$store.dispatch('getItemById', { id: item.id });
       this.$store.dispatch('setDetailsModal');
-    },
-    contribute() {
-      this.$router.push('/contribute');
     },
     addToList() {
       this.$store.dispatch('setListModal');
